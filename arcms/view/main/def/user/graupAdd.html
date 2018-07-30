@@ -1,0 +1,76 @@
+<import from="/layout/global" name="html5">
+	<extend name="title">
+		会员等级
+	</extend>
+	<extend name="body">
+		<form class="layui-form">
+			<table class="layui-table">
+				<thead>
+					<tr>
+						<th>角色名称</th>
+						<th>分配角色</th>
+					</tr>
+				</thead>
+				<tbody>
+				<for exp="$key in $roleList" as="r">
+					<tr>
+						<td>{{r.name}}</td>
+						<td>
+							<if exp="$r['check'] == '1'">
+								<a id="r0id_{{r.id}}" class="layui-btn layui-btn-xs layui-btn-danger" title="点击取消分配角色">已分配</a>
+								<else/>
+								<a id="r1id_{{r.id}}" class="layui-btn layui-btn-xs layui-btn-warm" title="点击分配角色">分配</a>
+							</if>
+							<input class="uid" type="hidden" value="{{r.uid}}">
+						</td>
+					</tr>
+				</for>
+				</tbody>
+			</table>
+		</form>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/user.js"></script>
+		<script type="text/javascript">
+			layui.use(['form','layer','laydate','table','laytpl'],function(){
+				var form = layui.form,
+						layer = parent.layer === undefined ? layui.layer : top.layer,
+						$ = layui.jquery,
+						laydate = layui.laydate,
+						laytpl = layui.laytpl,
+						table = layui.table;
+
+				// 取消分配角色
+				$("[id^=r0id_]").click(function () {
+					var role_id = $(this).attr("id").split("r0id_")[1];
+					var uid = $(".uid").val();
+					$.post(SERVER_PATH + 'user/changeRole',{
+						role_id : role_id,
+						uid : uid,
+						type : 0
+					},function(data){
+						// layer.alert(data.ret_msg);
+						location.reload();
+					}, 'json')
+				});
+
+				// 分配角色
+				$("[id^=r1id_]").click(function () {
+					var role_id = $(this).attr("id").split("r1id_")[1];
+					var uid = $(".uid").val();
+					$.post(SERVER_PATH + 'user/changeRole',{
+						role_id : role_id,
+						uid : uid,
+						type : 1
+					},function(data){
+						// layer.alert(data.ret_msg);
+						location.reload();
+					}, 'json')
+				});
+
+			});
+		</script>
+	</extend>
+</import>

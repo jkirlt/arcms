@@ -1,0 +1,195 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    数据库表
+  </extend>
+  <extend name="body">
+    <form class="layui-form">
+      <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+
+        </form>
+      </blockquote>
+      <!-- lay-filter="tableCols" -->
+      <table id="tableCols" lay-filter="tableCols"></table>
+
+      <!--操作-->
+      <script type="text/html" id="tableColsBar">
+        <a class="layui-btn layui-btn-xs" lay-event="editCols">编辑</a>
+      </script>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+    <script>
+      layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+        var form = layui.form,
+          layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery,
+          laytpl = layui.laytpl,
+          table = layui.table;
+        var tname = "{{\ar\core\request('tname')}}";
+
+        var tableNameInfo = new Array();
+        tableNameInfo["tablename"] = tname; // tableNameInfo是一个数组，只包含 tablename 一个字段信息，用于新增字段时显示数据表名称
+
+        // 数据表列表
+        var tableIns = table.render({
+          elem: '#tableCols',
+          url: JSON_API + "tableFkCols/tname/" + tname,
+          cellMinWidth: 95,
+          id: "tableCols",
+          cols: [
+            [{
+              field: 'tablename',
+              title: '表名',
+              minWidth: 180,
+              align: "center"
+              },
+              {
+                field: 'modelname',
+                title: '模型名',
+                minWidth: 180,
+                align: "center"
+              },
+              {
+                field: 'modelid',
+                title: '模型id',
+                minWidth: 180,
+                align: "center"
+              },
+              {
+                field: 'colname',
+                title: '字段名称',
+                minWidth: 180,
+                align: "center"
+              },
+              {
+                field: 'explain',
+                title: '字段说明',
+                minWidth: 150,
+                align: "center"
+              },
+              {
+                field: 'hasfk',
+                title: '是否存在外键模型',
+                minWidth: 200,
+                align: 'center',
+                templet: function(d) {
+                  return d.hasfk == "1" ? "存在" : "不存在";
+                }
+              },
+              {
+                field: '',
+                title: '操作',
+                templet: '#tableColsBar',
+                fixed: "right",
+                maxWidth: 75,
+                align: "center",
+                templet: function(d) {
+                  return d.hasfk == "0" ? '<a class="layui-btn layui-btn-xs" lay-event="addFk">生成外键模型</a>' : '<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="queryFk">查看</a> <a class="layui-btn layui-btn-xs" lay-event="editCols">编辑</a>';
+                }
+              }
+            ]
+          ]
+        });
+
+
+        //列表操作
+        table.on('tool(tableCols)', function(obj) {
+          var layEvent = obj.event,
+            data = obj.data;
+          if (layEvent === 'editCols') {
+            editFkModel(data);
+          } else if(layEvent === 'addFk') {
+            addFkModel(data);
+          } else if(layEvent === 'queryFk') {
+            queryFkModel(data);
+          }
+        });
+
+        // 查看关联模型
+        function queryFkModel(data){
+          var mtable = data.tablename;
+          var mcol = data.colname;
+
+          layer.open({
+            title : "查看关联模型",
+            type: 2,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['500px', '600px'], //宽高
+            content: SERVER_PATH + "SystemSetting/modelFkView/mtablename/"+mtable+"/mcolname/"+mcol
+          });
+
+        }
+
+        // 编辑关联模型字段
+        function editFkModel(data){
+          var mtable = data.tablename;
+          var mcol = data.colname;
+
+          var index = layui.layer.open({
+            title: "编辑外键模型名称",
+            type: 2,
+            content: SERVER_PATH + "SystemSetting/modelFkEdit/mtablename/"+mtable+"/mcolname/"+mcol,
+            success: function(layero, index) {
+              var body = layui.layer.getChildFrame('body', index);
+
+              setTimeout(function() {
+                layui.layer.tips('点击此处返回数据表列表', '.layui-layer-setwin .layui-layer-close', {
+                  tips: 3
+                });
+              }, 500)
+            }
+          });
+          layui.layer.full(index);
+          //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+          $(window).on("resize", function() {
+            layui.layer.full(index);
+          });
+
+        }
+
+        // 生成外键模型字段
+        function addFkModel(data){
+          var index = layer.msg('生成中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          var mid = data.modelid;
+          var mtablename = data.tablename;
+          var mmodelname = data.modelname;
+          var mcolname = data.colname;
+          var mexplain = data.explain;
+
+          $.post(JSON_API + 'addFkModel', {
+            mid : mid,
+            mtablename : mtablename,
+            mmodelname : mmodelname,
+            mcolname : mcolname,
+            mexplain : mexplain
+          },function(res){
+            if (res.success === '1') {
+              top.layer.msg("添加成功！");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("添加成功！");
+                // 刷新
+                location.reload();
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json');
+          return false;
+
+        }
+
+
+
+      })
+    </script>
+  </extend>
+</import>

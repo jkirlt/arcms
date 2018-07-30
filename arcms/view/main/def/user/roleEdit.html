@@ -1,0 +1,66 @@
+<import from="/layout/global" name="html5">
+	<extend name="title">
+		会员等级
+	</extend>
+	<extend name="body">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input type="text" name="rolename" value="{{role.name}}" class="layui-input rolename" lay-verify="required" placeholder="请输入用户组" />
+					<input type="hidden" value="{{role.id}}" class="roleid">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<button class="layui-btn redit">编辑</button>
+			</div>
+		</form>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript">
+			layui.use(['form','layer','laydate','table','laytpl'],function(){
+				var form = layui.form,
+						layer = parent.layer === undefined ? layui.layer : top.layer,
+						$ = layui.jquery,
+						laydate = layui.laydate,
+						laytpl = layui.laytpl,
+						table = layui.table;
+
+				// 编辑用户组
+				$(".redit").click(function(){
+					var rolename = $(".rolename").val();
+					var roleid = $(".roleid").val();
+					if(rolename.length<1){
+						return "必填项不能为空！";
+					} else {
+						var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+						// 实际使用时的提交信息
+						$.post(JSON_API + 'editRoleDo',{
+							id : roleid,
+							name : rolename
+						},function(res){
+							top.layer.close(index);
+							if (res.success === '1') {
+								top.layer.msg("编辑成功！");
+								setTimeout(function(){
+									top.layer.close(index);
+									top.layer.msg("编辑成功！");
+									// layer.closeAll("iframe");
+									//刷新父页面
+									// parent.location.reload();
+								},500);
+							} else {
+								top.layer.msg(res.error_msg);
+							}
+							return;
+						}, 'json')
+					}
+
+				});
+
+
+			});
+		</script>
+	</extend>
+</import>

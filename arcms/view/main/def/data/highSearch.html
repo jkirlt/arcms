@@ -1,0 +1,166 @@
+<import from="/layout/global" name="html5">
+<extend name="title">
+    高级搜索
+</extend>
+<extend name="body">
+    <form action="highSearch_submit" id="highSearch" method="get" accept-charset="utf-8" >
+        <?php for ($i=0; $i < count($showColumn); $i++) { ?>
+        <div class="layui-form-item">
+            <label class="layui-form-label">{{showColumn[$i]}}</label>
+            <div class="layui-input-block">
+                <input type="text" name="{{colname[$i]}}" required  lay-verify="required" placeholder="关键字包含" autocomplete="on" class="layui-input">
+            </div>
+            
+        </div>
+        <?php } ?>
+    </form>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn highSearchBtn" lay-submit lay-filter="highSearch">立即搜索</button>
+            <!-- <input id="submit" type="submit" value="提交" name="submit"> -->
+        </div>
+    </div>
+    
+</extend>
+
+<extend name="jsfoot">
+    <script src= {{C.PATH.PUBLIC}}."js/jquery-3.3.1.js"></script>
+    <script src={{C.PATH.PUBLIC}}"layui/layui.js"></script>
+    <!-- <script>
+      $(function() {
+          $('#submit').click(function() {alert('11');
+              var d = {};
+              var t = $('form').serializeArray();
+              $.each(t, function() {
+                d[this.name] = this.value;
+              });
+              alert(JSON.stringify(d));
+          });
+      });
+    </script> -->
+    <script type="text/javascript">
+        layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
+            var form = layui.form,
+              layer = parent.layer === undefined ? layui.layer : top.layer,
+              $ = layui.jquery,
+              laydate = layui.laydate,
+              laytpl = layui.laytpl,
+              table = layui.table;
+              
+             // 显示列
+            $(".highSearchBtn").on("click", function() { 
+                highSearch();
+            });
+
+            function highSearch(){
+                var params = serializeForm('highSearch');
+                console.log(params);
+                $.ajax({
+                    type: 'post',
+                    url: SERVER_PATH + "data/setHighSearch",
+                    data: {
+                        'mid':{{\ar\core\request('mid')}},
+                        'params':params
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.ret_code == '1000') {
+                            layer.msg('操作成功！', {
+                                icon:1,
+                                time:1000
+                            }, function() {
+                                // window.parent.location.reload();
+                                // parent.layer.closeAll('iframe');
+                                
+                            });
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        layer.msg('我也不晓得为啥子，反正就是不对！');
+                    }
+                });
+            }        
+            
+        });
+
+    </script>
+    
+<script>
+   //获取指定form中的所有的<input>对象    
+    function getElements(formId) {    
+        var form = document.getElementById(formId);    
+        var elements = new Array();    
+        var tagElements = form.getElementsByTagName('input');    
+        for (var j = 0; j < tagElements.length; j++){  
+             elements.push(tagElements[j]);  
+      
+        }  
+        return elements;    
+    }   
+  
+    //获取单个input中的【name,value】数组  
+    function inputSelector(element) {    
+      if (element.checked)    
+         return [element.name, element.value];    
+    }    
+          
+    function input(element) {    
+        switch (element.type.toLowerCase()) {    
+          case 'submit':    
+          case 'hidden':    
+          case 'password':    
+          case 'text':    
+            return [element.name, element.value];    
+          case 'checkbox':    
+          case 'radio':    
+            return inputSelector(element);    
+        }    
+        return false;    
+    }    
+  
+    //组合URL  
+    function serializeElement(element) {    
+        var method = element.tagName.toLowerCase();    
+        var parameter = input(element);    
+        
+        if (parameter) {    
+          var key = encodeURIComponent(parameter[0]);    
+          if (key.length == 0) return;    
+        
+          if (parameter[1].constructor != Array)    
+            parameter[1] = [parameter[1]];    
+              
+          var values = parameter[1];    
+          var results = [];    
+          for (var i=0; i<values.length; i++) {    
+            results.push(key + '=' + encodeURIComponent(values[i]));    
+            // results.push('' + encodeURIComponent(values[i])); 
+            // results.push(key + '=' + values[i]);   
+          }    
+          return results.join('&');    
+        }    
+    }    
+  
+    //调用方法     
+    function serializeForm(formId) {    
+        var elements = getElements(formId);
+        var queryComponents = new Array();    
+        
+        for (var i = 0; i < elements.length; i++) {    
+          var queryComponent = serializeElement(elements[i]);   
+          if (queryComponent)    
+            queryComponents.push(queryComponent);    
+        }    
+        
+        return queryComponents.join('&');  
+    }
+</script>
+
+
+
+  </extend>
+
+</import>

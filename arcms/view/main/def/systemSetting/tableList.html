@@ -1,0 +1,26 @@
+<import from="/layout/global" name="html5">
+    <extend name="title">
+        数据库表
+    </extend>
+    <extend name="body">
+        <form class="layui-form">
+            <!-- <blockquote class="layui-elem-quote quoteBox">
+                <form class="layui-form">
+                    <div class="layui-inline">
+                    </div>
+                </form>
+            </blockquote> -->
+            <table id="tableList" lay-filter="tableList"></table>
+
+            <!--操作-->
+            <script type="text/html" id="tableListBar">
+
+            </script>
+        </form>
+    </extend>
+
+    <extend name="jsfoot">
+        <script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+        <script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/tableList.js"></script>
+    </extend>
+</import>

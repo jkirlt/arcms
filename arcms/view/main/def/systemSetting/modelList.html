@@ -1,0 +1,253 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    模型设置
+  </extend>
+
+  <extend name="body">
+    <form class="layui-form">
+      <!-- <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+          <div class="layui-inline">
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
+            </div>
+            <a class="layui-btn search_btn" data-type="reload">搜索</a>
+          </div>
+        </form>
+      </blockquote> -->
+      <table id="modelList" lay-filter="modelList"></table>
+
+      <!--操作-->
+      <script type="text/html" id="modelListBar">
+        <a class="layui-btn layui-btn-xs" lay-event="turn">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="setController">生成控制器</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="setMenu">生成菜单</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+      </script>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+    <script type="text/javascript">
+      layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+        var form = layui.form,
+          layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery,
+          laytpl = layui.laytpl,
+          table = layui.table;
+
+        //需求列表
+        var tableIns = table.render({
+          elem: '#modelList',
+          url: JSON_API + "modelList",
+          cellMinWidth: 95,
+          page: true,
+          height: "full-125",
+          limits: [10, 15, 20, 25],
+          limit: 10,
+          id: "modelListTable",
+          cols: [
+            [{
+                type: "checkbox",
+                fixed: "left",
+                width: 50
+              },
+              {
+                field: 'modelname',
+                title: '模型名',
+                width: 150,
+                align: "center"
+              },
+              {
+                field: 'tablename',
+                title: '数据表名',
+                width: 180,
+                align: 'center'
+              },
+              {
+                field: 'explain',
+                title: '说明',
+                width: 180,
+                align: 'left',
+                templet:function(d){
+                  if (d.explain == null){
+                    return '<a class="layui-btn layui-btn-xs" lay-event="addExplain">添加说明</a>';
+                  } else {
+                    return '<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="addExplain">'+ d.explain+'</a>';
+                  }
+                }
+              },
+              {
+                field: 'isadd',
+                title: '可添加',
+                width: 90,
+                align: 'center',
+                templet:function(d){
+                  if (d.isadd == 1) {
+                    return '<input type="checkbox" checked name="isadd" value="'+ d.id+'" lay-filter="isAdd" lay-skin="switch" lay-text="是|否" '+d.isadd+'>'
+                  } else {
+                    return '<input type="checkbox" name="isadd" value="'+d.id+'" lay-filter="isAdd" lay-skin="switch" lay-text="是|否" '+d.isadd+'>'
+                  }
+                }
+              },
+              {
+                field: 'isedit',
+                title: '可编辑',
+                width: 90,
+                align: 'center',
+                templet:function(d){
+                  if (d.isedit == 1) {
+                    return '<input type="checkbox" checked name="isedit" value="'+ d.id+'" lay-filter="isEdit" lay-skin="switch" lay-text="是|否" '+d.isedit+'>'
+                  } else {
+                    return '<input type="checkbox" name="isedit" value="'+d.id+'" lay-filter="isEdit" lay-skin="switch" lay-text="是|否" '+d.isedit+'>'
+                  }
+                }
+              },
+              {
+                field: 'isdel',
+                title: '可删除',
+                width: 90,
+                align: 'center',
+                templet:function(d){
+                  if (d.isdel == 1) {
+                    return '<input type="checkbox" checked name="isdel" value="'+ d.id+'" lay-filter="isDel" lay-skin="switch" lay-text="是|否" '+d.isdel+'>'
+                  } else {
+                    return '<input type="checkbox" name="isdel" value="'+d.id+'" lay-filter="isDel" lay-skin="switch" lay-text="是|否" '+d.isdel+'>'
+                  }
+                }
+              },
+              {
+                title: '操作',
+                minWidth: 175,
+                templet: '#modelListBar',
+                fixed: "right",
+                align: "center",
+                templet: function(d) {
+                  return '<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="viewField">管理模型</a>' + (d.menu == "0" ? '<a class="layui-btn layui-btn-xs" lay-event="setMenu">生成菜单</a>' :
+                    '<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="setFunc">自定义功能</a>') +
+                    '<a class="layui-btn layui-btn-xs" lay-event="viewFK">管理外键</a>';
+                }
+              }
+            ]
+          ]
+        });
+
+        // 是否可编辑
+        form.on('switch()', function(data){
+          var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
+          var setval;
+          console.log(data.elem.checked);
+          console.log(data.value);
+          if (data.elem.checked) {
+            setval = 1;
+          } else {
+            setval = 0;
+          }
+          $.get(JSON_API + 'setMenu', {
+            colname: data.elem.name,
+            id : data.value,
+            value: setval
+          }, (res) => {
+            layer.close(index);
+          if(data.elem.checked){
+            layer.msg("设置成功！");
+          }else{
+            layer.msg("取消成功！");
+          }
+        }, 'json');
+
+        });
+
+        //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
+        $(".search_btn").on("click", function() {
+          if ($(".searchVal").val() != '') {
+            table.reload("newsListTable", {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              },
+              where: {
+                key: $(".searchVal").val() //搜索的关键字
+              }
+            })
+          } else {
+            layer.msg("请输入搜索的内容");
+          }
+        });
+
+
+        //批量删除
+        $(".delAll_btn").click(function() {
+          var checkStatus = table.checkStatus('userListTable'),
+            data = checkStatus.data,
+            newsId = [];
+          if (data.length > 0) {
+            for (var i in data) {
+              newsId.push(data[i].newsId);
+            }
+            layer.confirm('确定删除选中的用户？', {
+              icon: 3,
+              title: '提示信息'
+            }, function(index) {
+              // $.get("删除文章接口",{
+              //     newsId : newsId  //将需要删除的newsId作为参数传入
+              // },function(data){
+              tableIns.reload();
+              layer.close(index);
+              // })
+            })
+          } else {
+            layer.msg("请选择需要删除的用户");
+          }
+        })
+
+        //列表操作
+        table.on('tool(modelList)', function(obj) {
+          var layEvent = obj.event,
+            data = obj.data;
+
+          if (layEvent === 'turn') { //编辑
+            var description = "";
+            for (var i in data) {
+              description += i + " = " + data[i] + "\n";
+            }
+
+
+            addRequirement(description);
+          } else if (layEvent === 'setMenu') { // 生成菜单
+
+            openPage(SERVER_PATH + 'systemSetting/menuAdd/mid/' + data.id, '模型生成菜单')
+          } else if (layEvent === 'viewField') {
+
+            var url1 = SERVER_PATH + "systemSetting/showFields/tname/" + data.tablename;
+            openPage(url1, data.tablename + '模型字段管理')
+          } else if (layEvent === 'viewFK') {
+
+            var url2 = SERVER_PATH + "systemSetting/viewFK/tname/" + data.tablename;
+            openPage(url2, data.tablename + '模型外键字段管理')
+          } else if (layEvent === 'setFunc') {
+
+            var url3 = SERVER_PATH + "systemSetting/coustomFunc/tname/" + data.tablename;
+            openPage(url3, data.tablename + '模型自定义功能列表')
+          } else if (layEvent === 'addExplain') {
+            addExplain(data);
+          }
+
+          function addExplain(data){
+            var mid = data.id;
+            layer.open({
+              title : data.modelname + "编辑说明",
+              type: 2,
+              skin: 'layui-layer-rim', //加上边框
+              area: ['500px', '300px'], //宽高
+              content: SERVER_PATH + "SystemSetting/addModelExplain/id/" + mid
+            });
+
+          }
+
+        });
+
+      })
+    </script>
+  </extend>
+</import>

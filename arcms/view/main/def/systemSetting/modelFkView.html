@@ -1,0 +1,103 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    查看关联模型
+  </extend>
+  <extend name="body">
+    <form class="layui-form" style="width:80%;">
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主数据表名</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mtablename}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表模型名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mmodelname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表模型id</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mid}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表字段名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mcolname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表字段说明</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mexplain}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">关联数据表名</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.ftablename}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">关联模型名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.fmodelname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">关联模型id</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.fid}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">映射字段名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.funival}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">关联字段名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.fcolname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">关联字段说明</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.fexplain}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+
+
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+
+    <script>
+      layui.use(['form', 'layer'], function() {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery;
+
+        //格式化时间
+        function filterTime(val) {
+          if (val < 10) {
+            return "0" + val;
+          } else {
+            return val;
+          }
+        }
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear() + '-' + filterTime(time.getMonth() + 1) + '-' + filterTime(time.getDate()) + ' ' + filterTime(time.getHours()) + ':' + filterTime(time.getMinutes()) + ':' + filterTime(time.getSeconds());
+
+      })
+    </script>
+
+  </extend>
+</import>

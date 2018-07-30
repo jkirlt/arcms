@@ -1,0 +1,253 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    编辑
+  </extend>
+  <extend name="body">
+    <form class="layui-form layui-row layui-col-space10">
+      <div class="layui-col-md9 layui-col-xs12">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-md12 layui-col-xs7">
+            <for exp="$key in $columns" as="column">
+              <if exp="$column['isedit']==1">
+              <div class="layui-form-item magt3">
+                <label class="layui-form-label">{{column.colshowname}}</label>
+                <div class="layui-input-block">
+                  <php>
+                    if($doedit==1){
+                      $cval = $row[$column['colname']];
+                      if($column['type']==3){
+                        $cval = stripslashes($cval);
+                        $cval = stripcslashes($cval);
+                      }
+                    } else if($column['type']==5){
+                      $cval = 0;
+                    } else {
+                      $cval = "";
+                    }
+                  </php>
+
+                  <if exp="$column['type']==0||$column['type']==6||$column['type']==7">
+                    <input type="text" class="layui-input {{column.colname}}" value="{{cval}}" lay-verify="{{column.colname}}" placeholder="{{column.explain}}">
+                  </if>
+
+                  <if exp="$column['type']==1||$column['type']==2">
+                    <div class="layui-input-line">
+                      <select name="{{column.colname}}" class="{{column.colname}}" lay-filter="{{column.colname}}">
+                      <php>
+                        // 字段类型说明
+                        $typeex = $column['typeexplain'];
+                        // 根据'|'截取字符串并放入数组
+                        $str1 = explode("|",$typeex);
+                        foreach($str1 as $t){
+                            // 截取':'前面的内容
+                            $tn1 = substr($t,0,strpos($t, ':'));
+                            // 截取':'后面的内容
+                            $tn2 = substr($t,strpos($t, ':')+1);
+                            $sel = '';
+                            if($cval==$tn1){
+                                $sel = 'selected';
+                            }
+                            echo '<option value="'.$tn1.'"  '.$sel.'>'.$tn2.'</option>';
+                        }
+                      </php>
+                      </select>
+                    </div>
+                  </if>
+
+                  <if exp="$column['type']==3">
+                    <div class="layui-input-block">
+                      <textarea placeholder="{{column.explain}}" id="type3" class="form-control {{column.colname}}" style="display: none;">{{cval}}</textarea>
+                    </div>
+                  </if>
+
+                  <if exp="$column['type']==4">
+                    <img src="{{cval}}" class="layui-upload-img uploadImg" id="{{column.colname}}" style="height: 160px;width: 160px;">
+                    <input type="hidden" name="{{column.colname}}" value="{{cval}}" class="layui-input {{column.colname}}">
+                  </if>
+
+                  <if exp="$column['type']==5">
+                    <div class="layui-input-inline">
+                      <input type="text" name="{{column.colname}}" value="{{date('Y-m-d H:i:s', $cval)}}" class="layui-input dateinput {{column.colname}}" placeholder="yyyy-MM-dd">
+                    </div>
+                  </if>
+
+                  <if exp="$column['type']==8">
+                    <div class="layui-input-inline">
+                      <select name="{{column.colname}}" class="{{column.colname}}" lay-filter="{{column.colname}}">
+                        <option value="">---请选择---</option>
+                        <php>
+                          // 根据表名及字段名称查找模型外键关联表信息
+                          $mtablename = $column['tablename'];
+                          $mcolname = $column['colname'];
+                          $con = [
+                            'mtablename' => $mtablename,
+                            'mcolname' => $mcolname
+                          ];
+                          $fkDetail = \arcms\lib\model\ModelFK::model()->getDb()->where($con)->queryRow();
+                          $fid = $fkDetail['fid'];
+                          // 映射键的值
+                          $unival = $cval;
+                          if($fid > 0){
+                              // 关联模型名
+                              $fmodelname = '\arcms\lib\model\\' . $fkDetail['fmodelname'];
+                              // 关联模型字段名
+                              $fcolname = $fkDetail['fcolname'];
+                              // 关联表映射键名 $fkid
+                              $fkid = 'id';
+                              $funikey = $fkDetail['funival'];
+                                if ($funikey) {
+                                    $fkid = $funikey;
+                                }
+                              // 唯一键值 $unival
+                              // 查找关联模型信息
+                              $fmodelDetail = $fmodelname::model()->getDb()
+                                ->queryAll();
+                              foreach($fmodelDetail as $de){
+                                  $seled = '';
+                                  if($unival==$de[$fkid]){
+                                      $seled = 'selected';
+                                  }
+                                  echo '<option value="'.$de[$fkid].'"  '.$seled.'>'.$de[$fcolname].'</option>';
+                              }
+                          } else {
+                              echo '<option value="">---请在模型管理里面编辑外键关联模型---</option>';
+                          }
+                        </php>
+                      </select>
+                    </div>
+                  </if>
+
+                </div>
+              </div>
+              </if>
+            </for>
+          </div>
+          <div class="border">
+            <div class="layui-right">
+              <a class="layui-btn layui-btn-sm" lay-filter="addNews" lay-submit><i class="layui-icon">&#xe609;</i>提交</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script>
+      layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            laypage = layui.laypage,
+            upload = layui.upload,
+            layedit = layui.layedit,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+
+        // 富文本编辑器
+        layedit.set({
+          uploadImage: {
+            url: JSON_API + "uploadImgByArtice",
+            type: 'post'
+          }
+        });
+        var editindex = layedit.build('type3', {
+
+        });
+
+        // 日期时间
+        laydate.render({
+          elem: '.dateinput',
+          type: 'datetime'
+        });
+
+        // 上传图片
+        upload.render({
+          url: JSON_API + "uploadImg",
+          elem: '.uploadImg',
+          ext: 'jpg|png|gif',
+          area: ['500', '500px'],
+          data: {
+            <?php
+            foreach ($columns as $column) {
+                if($column['type']==4){
+                  echo 'colname: "' . $column['colname'] . '", ';
+                  echo 'colvalue: $(".'.$column['colname'].'").val(),';
+                }
+            }
+            ?>
+            mid: {{\ar\core\request('mid')}}
+          },
+          before: function(input){
+            loading = layer.load(2, {
+              shade: [0.2,'#000']
+            });
+          },
+          done: function(res){
+            layer.close(loading);
+            var img = res.data.data.src;
+            var col = res.data.data.colname;
+            $('input[name='+ col +']').val(img);
+            $('#'+ col +'').attr('src',img);
+          }
+        });
+
+        form.verify({
+          newsName: function(val) {
+            if (val == '') {
+              return "文章标题不能为空";
+            }
+          },
+          content: function(val) {
+            if (val == '') {
+              return "文章内容不能为空";
+            }
+          }
+        })
+        form.on("submit(addNews)", function(data) {
+          //弹出loading
+          var index = top.layer.msg('数据提交中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          // 实际使用时的提交信息
+          $.post(JSON_API + 'modelDataEdit', {
+            <?php
+              foreach ($columns as $column) {
+                if($column['type']==3){
+                    echo $column['colname'] . ': layedit.getContent(editindex),';
+                } else if($column['type']==5){
+                    echo $column['colname'] . ': Date.parse($(".'.$column['colname'].'").val())/1000,';
+                } else {
+                    echo $column['colname'] . ': $(".'.$column['colname'].'").val(),';
+                }
+
+              }
+            ?>
+            "{{uniKey}}": "{{\ar\core\request('id')}}",
+            mid: "{{\ar\core\request('mid')}}",
+          }, function(res) {
+            top.layer.close(index);
+            if (res.success === '1') {
+              top.layer.msg("操作成功！");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("操作成功！");
+                layer.closeAll("iframe");
+                //刷新父页面
+                parent.location.reload();
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json')
+
+          return false;
+        })
+
+      })
+    </script>
+  </extend>
+</import>

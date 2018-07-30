@@ -1,0 +1,108 @@
+<import from="/layout/global" name="html5-outer">
+	<extend name="title">
+		安装
+	</extend>
+	<extend name="body">
+
+		<body class="loginBody">
+			<form class="layui-form" method="post">
+				<h3>安装arcms后台管理系统</h3>
+				<div id="first">
+					<h3>数据库设置</h3>
+					<div class="layui-form-item input-item">
+						<label>数据库url</label>
+						<input type="text" placeholder="请输入数据库url" autocomplete="off" name="database-url" id="database-url" class="layui-input">
+					</div>
+					<div class="layui-form-item input-item">
+						<label>数据库名称</label>
+						<input type="text" placeholder="请输入数据库名称" autocomplete="off" name="database-name" id="database-name" class="layui-input">
+					</div>
+					<div class="layui-form-item input-item">
+						<label>数据库端口号</label>
+						<input type="text" placeholder="请输入数据库端口号" autocomplete="off" name="database-port" id="database-port" class="layui-input">
+					</div>
+					<div class="layui-form-item input-item">
+						<label>数据库用户名</label>
+						<input type="text" placeholder="请输入数据库用户名" autocomplete="off" name="database-username" id="database-username" class="layui-input">
+					</div>
+					<div class="layui-form-item input-item">
+						<label>数据库密码</label>
+						<input type="text" placeholder="请输入数据库密码" autocomplete="off" name="database-password" id="database-password" class="layui-input">
+					</div>
+					<div class="">
+						<button class="layui-btn layui-block" id="nextbtn">下一步</button>
+					</div>
+				</div>
+				<div id="next">
+					<h3>管理员设置</h3>
+					<div class="layui-form-item input-item">
+						<label>用户名</label>
+						<input type="text" placeholder="请输入用户名" autocomplete="off" name="username" id="username" class="layui-input">
+					</div>
+					<div class="layui-form-item input-item">
+						<label>密码</label>
+						<input type="password" placeholder="请输入密码" autocomplete="off" name="password" id="password" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<button class="layui-btn layui-block" lay-filter="regist" lay-submit>提交</button>
+					</div>
+				</div>
+			</form>
+		</body>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/cache.js"></script>
+		<script>
+			layui.use(['form','layer','jquery'],function(){
+				var form = layui.form,
+						layer = parent.layer === undefined ? layui.layer : top.layer
+				$ = layui.jquery;
+
+				$("#first").show();
+				$("#next").hide();
+
+				// 下一步按钮
+				$("#nextbtn").click(function(){
+					$("#first").hide();
+					$("#next").show();
+				});
+
+//				form.on("submit(next)",function(data){
+					// console.log(data.field);
+//					$.post(JSON_API + 'login', data.field, data => {
+//						console.log(data)
+//					if (data.success == '1') {
+//						$(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
+//						setTimeout(function(){
+//							window.location.href = SERVER_PATH;
+//						},1000);
+//					} else {
+//						layer.msg(data.error_msg);
+//					}
+//				}, 'json')
+
+//					return false;
+//				});
+
+				//表单输入效果
+				$(".loginBody .input-item").click(function(e){
+					e.stopPropagation();
+					$(this).addClass("layui-input-focus").find(".layui-input").focus();
+				})
+				$(".loginBody .layui-form-item .layui-input").focus(function(){
+					$(this).parent().addClass("layui-input-focus");
+				})
+				$(".loginBody .layui-form-item .layui-input").blur(function(){
+					$(this).parent().removeClass("layui-input-focus");
+					if($(this).val() != ''){
+						$(this).parent().addClass("layui-input-active");
+					}else{
+						$(this).parent().removeClass("layui-input-active");
+					}
+				})
+			})
+		</script>
+	</extend>
+</import>

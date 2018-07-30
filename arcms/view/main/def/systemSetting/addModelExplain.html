@@ -1,0 +1,95 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    管理数据表关联模型
+  </extend>
+  <extend name="body">
+    <form class="layui-form" style="width:80%;">
+
+          <input type="hidden" value="{{model.id}}" disabled="disabled" class="layui-input id">
+
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">数据表名</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{model.tablename}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">模型名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{model.modelname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">说明</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{model.explain}}" class="layui-input explain">
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="add">提交</button>
+          <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+
+    <script>
+      layui.use(['form', 'layer'], function() {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery;
+
+        form.on("submit(add)", function(data) {
+          //弹出loading
+          var index = top.layer.msg('数据提交中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+
+          var id = $(".id").val();
+          var explain = $(".explain").val();
+          // 实际使用时的提交信息
+          $.post(JSON_API + 'addTableExplain', {
+            id: id,
+            explain: explain
+          }, function(res) {
+            top.layer.close(index);
+            if (res.success === '1') {
+              top.layer.msg("编辑成功");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("编辑成功");
+                layer.closeAll("iframe");
+                //刷新父页面
+                parent.location.reload();
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json')
+          return false;
+        });
+
+        //格式化时间
+        function filterTime(val) {
+          if (val < 10) {
+            return "0" + val;
+          } else {
+            return val;
+          }
+        }
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear() + '-' + filterTime(time.getMonth() + 1) + '-' + filterTime(time.getDate()) + ' ' + filterTime(time.getHours()) + ':' + filterTime(time.getMinutes()) + ':' + filterTime(time.getSeconds());
+
+      })
+    </script>
+
+  </extend>
+</import>

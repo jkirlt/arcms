@@ -1,0 +1,112 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    编辑
+  </extend>
+  <extend name="body">
+    <form class="layui-form layui-row layui-col-space10">
+      <div class="layui-col-md9 layui-col-xs12">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-md12 layui-col-xs7">
+            <if exp="$doedit==1">
+              <input type="hidden" class="layui-input id" value="{{funcDetail.id}}" lay-verify="id">
+            </if>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">模型id</label>
+              <div class="layui-input-block">
+                <input type="text" disabled class="layui-input mid" value="{{modelDetail.id}}" lay-verify="mid">
+              </div>
+            </div>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">菜单id</label>
+              <div class="layui-input-block">
+                <input type="text" disabled class="layui-input menuid" value="{{modelDetail.menu}}" lay-verify="menuid">
+              </div>
+            </div>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">按钮名称</label>
+              <div class="layui-input-block">
+                <if exp="$doedit==1">
+                  <input type="text" class="layui-input title" value="{{funcDetail.title}}" lay-verify="title">
+                <else/>
+                  <input type="text" class="layui-input title" lay-verify="title">
+                </if>
+              </div>
+            </div>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">接口名称</label>
+              <div class="layui-input-block">
+                <if exp="$doedit==1">
+                  <input type="text" class="layui-input name" value="{{funcDetail.name}}" lay-verify="name">
+                <else/>
+                  <input type="text" class="layui-input name" lay-verify="name">
+                </if>
+              </div>
+            </div>
+          </div>
+          <div class="border">
+            <div class="layui-right">
+              <a class="layui-btn layui-btn-sm" lay-filter="addNews" lay-submit><i class="layui-icon">&#xe609;</i>提交</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script>
+      layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            laypage = layui.laypage,
+            upload = layui.upload,
+            layedit = layui.layedit,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+
+        form.on("submit(addNews)", function(data) {
+          //弹出loading
+          var index = top.layer.msg('数据提交中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          // 实际使用时的提交信息
+          $.post(JSON_API + 'funcEdit', {
+          <?php
+            if($doedit==1){
+              echo 'id : $(".id").val(),';
+            } else {
+              echo 'id : "",';
+            }
+          ?>
+            mid : $(".mid").val(),
+            menuid : $(".menuid").val(),
+            title : $(".title").val(),
+            name : $(".name").val(),
+            apiaddr : $(".name").val()
+          }, function(res) {
+            top.layer.close(index);
+            if (res.success === '1') {
+              top.layer.msg("操作成功！");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("操作成功！");
+                layer.closeAll("iframe");
+                //刷新父页面
+                parent.location.reload();
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json')
+
+          return false;
+        })
+
+      })
+    </script>
+  </extend>
+</import>

@@ -1,0 +1,323 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    数据列表
+  </extend>
+  <extend name="body">
+    <form class="layui-form">
+      <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+          <div class="layui-inline">
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
+            </div>
+            <a class="layui-btn search_btn" data-type="reload">搜索</a>
+          </div>
+          <!-- <div class="layui-inline">
+            <a class="layui-btn highSearch" lay-event="highSearch" id="highSearch">高级搜索</a>
+          </div> -->
+          <div class="layui-inline">
+            <a class="layui-btn define_show_column" lay-event="show_column" id="define_show_column">自定义显示列</a>
+          </div>
+          <if exp="$modelDetail['isadd']==1">
+            <div class="layui-inline">
+              <a class="layui-btn layui-btn-normal addNews_btn">添加</a>
+            </div>
+          </if>
+          <if exp="$modelDetail['isdel']==1">
+            <div class="layui-inline">
+              <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+            </div>
+          </if>
+          <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary downAsExcel">导出Excel</a>
+          </div>
+
+        </form>
+      </blockquote>
+      <table id="newsList" lay-filter="newsList"></table>
+
+      <!--操作-->
+      <script type="text/html" id="newsListBar">
+        <?php
+           if($modelDetail['isedit']==1){
+               echo '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>';
+           }
+        ?>
+
+        <?php
+           if($modelDetail['isdel']==1){
+               echo '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>';
+           }
+        ?>
+
+        <?php
+            if($hasFunc==1){
+                for ($i=0;$i<count($func);$i++) {
+                  if($func[$i]['status']==1){
+                      echo '<a class="layui-btn layui-btn-xs '.$func[$i]['name'].'" lay-event="'.$func[$i]['name'].'">' . $func[$i]['title'] . '</a>';
+                  }
+                }
+            }
+        ?>
+      </script>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script src= {{C.PATH.PUBLIC}}."js/jquery-3.3.1.js"></script>
+    <script src={{C.PATH.PUBLIC}}"layui/layui.js"></script>
+    <script>   
+      layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
+        var form = layui.form,
+          layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery,
+          laydate = layui.laydate,
+          laytpl = layui.laytpl,
+          table = layui.table;
+        var keyword = $('.searchVal').val();
+        // 列表
+        var tableIns = table.render({
+          elem: '#newsList',
+          url: JSON_API + "modelDataList/mid/{{\ar\core\request('mid')}}/unikey/{{uniKey}}/keyword/"+keyword,
+          cellMinWidth: 95,
+          page: true,
+          height: "full-125",
+          limit: 20,
+          limits: [10, 15, 20, 25],
+          id: "newsListTable",
+          cols: [
+            [
+              <?php
+                if ($hasUnique) {
+                  echo '{
+                    type: "checkbox",
+                    fixed: "left",
+                    width: 50
+                  },';
+                }
+              ?>
+
+              <?php
+              for ($i=0;$i<count($columns);$i++) {
+                  if ($columns[$i]['isshow']) {
+                      $title = $columns[$i]['colshowname'];
+                      echo '{
+                      field: "'.$columns[$i]['colname'].'",
+                      title: "'. $title .'",
+                      sort: "'. $columns[$i]['issort'] .'"
+                      },';
+                  }
+              }
+              ?> {
+                title: '操作',
+                <?php
+                  $btnnum = 0;
+                  if($modelDetail['isedit']==1 && $modelDetail['isdel']==1){
+                    $btnnum = 2;
+                    if($hasFunc==1){
+                      for ($i=0;$i<count($func);$i++) {
+                        if($func[$i]['status']==1){
+                          $btnnum++;
+                        }
+                      }
+                    } else {
+                      $btnnum = 2;
+                    }
+                  }
+                  else if($modelDetail['isedit']==1 && $modelDetail['isdel']==0){
+                    $btnnum = 1;
+                    if($hasFunc==1){
+                      for ($i=0;$i<count($func);$i++) {
+                        if($func[$i]['status']==1){
+                          $btnnum++;
+                        }
+                      }
+                    } else {
+                      $btnnum = 2;
+                    }
+                  }
+                  else if($modelDetail['isedit']==0 && $modelDetail['isdel']==1){
+                    $btnnum = 1;
+                    if($hasFunc==1){
+                      for ($i=0;$i<count($func);$i++) {
+                        if($func[$i]['status']==1){
+                          $btnnum++;
+                        }
+                      }
+                    } else {
+                      $btnnum = 2;
+                    }
+                  }
+                  else if($modelDetail['isedit']==0 && $modelDetail['isdel']==0){
+                    $btnnum = 0;
+                    if($hasFunc==1){
+                      for ($i=0;$i<count($func);$i++) {
+                        if($func[$i]['status']==1){
+                          $btnnum++;
+                        }
+                      }
+                    } else {
+                      $btnnum = 2;
+                    }
+                  }
+                  $width = 80*$btnnum;
+                  echo 'width: '. $width .',';
+
+                ?>
+                templet: '#newsListBar',
+                fixed: "right",
+                align: "center"
+              }
+            ]
+          ]
+        });
+
+        // 开关状态值
+        form.on('switch()', function(data) {
+          var index = layer.msg('修改中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          var setval;
+          if (data.elem.checked) {
+            setval = 1;
+          } else {
+            setval = 0;
+          }
+
+          $.get(JSON_API + 'setSwitch', {
+            mid: {{\ar\core\request('mid')}},
+            colname: data.elem.name,
+            id: data.value,
+            value: setval
+          }, (res) => {
+            layer.close(index);
+            if (data.elem.checked) {
+              layer.msg("操作成功！");
+            } else {
+              layer.msg("修改成功！");
+            }
+          }, 'json');
+
+        });
+
+        //搜索
+        $(".search_btn").on("click", function() {
+          if ($(".searchVal").val() != '') {
+            table.reload("newsListTable", {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              },
+              where: {
+                keyword: $(".searchVal").val() //搜索的关键字
+              }
+            })
+          } else {
+            layer.msg("请输入搜索的内容");
+          }
+        });
+
+        // 查询显示列
+        $('#define_show_column').click(function() {
+          layer.open({
+            type: 2,
+            title: '自定义显示列',
+            area: ['300px', '360px'],
+            shadeClode: true,  // 点击关闭遮罩层
+            content: SERVER_PATH + "data/define_show_column/mid/{{\ar\core\request('mid')}}"
+          });
+        });
+
+        // 高级搜索
+        $('#highSearch').click(function() {
+          layer.open({
+            type: 2,
+            title: '自定义显示列',
+            area: ['500px', '360px'],
+            shadeClode: true,  // 点击关闭遮罩层
+            content: SERVER_PATH + "data/highSearch/mid/{{\ar\core\request('mid')}}"
+          });
+        });
+
+        // 导出Excel
+        $(".downAsExcel").click(function() {
+          var mid = {{\ar\core\request('mid')}};
+          window.location.href = SERVER_PATH + "data/downAsExcel?mid="+mid;
+         });
+
+        //添加文章
+        function addNews(edit) {
+          if (edit) {
+            var url = SERVER_PATH + "data/edit/mid/{{\ar\core\request('mid')}}/id/" + edit['{{uniKey}}']
+            openPage(url, '更新数据源')
+          } else {
+            var url = SERVER_PATH + "data/edit/mid/{{\ar\core\request('mid')}}"
+            openPage(url, '添加数据源')
+          }
+        }
+
+        $(".addNews_btn").click(function() {
+          addNews();
+        })
+
+        //批量删除
+        $(".delAll_btn").click(function() {
+          var checkStatus = table.checkStatus('newsListTable'),
+            data = checkStatus.data,
+            ids = [];
+          if (data.length > 0) {
+            for (var i in data) {
+              ids.push(data[i]["{{uniKey}}"]);
+            }
+            layer.confirm('确定删除选中的数据？', {
+              icon: 3,
+              title: '提示信息'
+            }, function(index) {
+              $.get(JSON_API + 'delModelData', {
+                mid: "{{\ar\core\request('mid')}}",
+                id: ids
+              }, function(data) {
+                tableIns.reload();
+                layer.close(index);
+              })
+            })
+          } else {
+            layer.msg("请选择需要删除的文章");
+          }
+        })
+
+        //列表操作
+        table.on('tool(newsList)', function(obj) {
+          var layEvent = obj.event,
+            data = obj.data;
+
+          if (layEvent === 'edit') { // 编辑
+            addNews(data);
+          } else if (layEvent === 'del') { // 删除
+            layer.confirm('确定删除？', {
+              icon: 3,
+              title: '提示信息'
+            }, function(index) {
+              $.post(JSON_API + 'delModelData', {
+                mid: "{{\ar\core\request('mid')}}",
+                "id": data["{{uniKey}}"] //将需要删除的newsId作为参数传入
+              }, function(data) {
+                // if (data.success == '1') {
+                //
+                // }
+                tableIns.reload();
+                layer.close(index);
+              }, 'json')
+            });
+          } else { // 自定义功能
+            var title = $('.'+layEvent+':first').text();
+            openPage(SERVER_PATH + "costomFunc/" +layEvent+"/res/"+data['{{uniKey}}'], title)
+          }
+        });
+      })
+     
+    </script>
+    
+  </extend>
+</import>

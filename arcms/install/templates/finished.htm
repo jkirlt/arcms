@@ -1,0 +1,31 @@
+<!--<?php
+# 智数 Enterprise Content Management System
+# Copyright (C) 智数 Co.,Ltd (http://www.coopcoder.com). All rights reserved.
+require_once template('head');
+echo <<<EOT
+-->
+<script language="javascript">
+  $(window.parent.document).find(".bodyleft li").removeClass('stepnow');
+  $(window.parent.document).find("#finished").addClass('stepnow');
+</script>
+
+<body>
+  <div id="jsheit">
+    {$yj}
+    <div class="contenttext round">
+      <h1 class="titleok">安装成功！</h1>
+      <p>欢迎使用智数！希望智数能够为你的企业带来客户并创造价值！</p>
+      <p style="color:#666;">手动删除安装文件夹/install，以防止再次安装而覆盖数据。</p>
+      <div style="margin-top:5px;">
+        <a class="getweburl" href="../" target="_parent">管理后台</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<!--
+EOT;
+# This program is an open source system, commercial use, please consciously to purchase commercial license.
+# Copyright (C) 智数 Co., Ltd. (http://www.coopcoder.com). All rights reserved.
+?>-->

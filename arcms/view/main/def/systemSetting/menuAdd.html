@@ -1,0 +1,150 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    菜单列表
+  </extend>
+  <extend name="body">
+    <form class="layui-form layui-row layui-col-space10">
+      <div class="layui-col-md9 layui-col-xs12">
+        <div class="layui-row layui-col-space10">
+          <div class="layui-col-md9 layui-col-xs7">
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">菜单标题</label>
+              <div class="layui-input-block">
+                <if exp="$isToModel==1">
+                  <input type="text" class="layui-input title" placeholder="{{model.modelname}}模型名称">
+                  <else/>
+                  <input type="text" class="layui-input title" placeholder="请输入菜单名称">
+                </if>
+                <input type="hidden" class="layui-input nav_id">
+              </div>
+            </div>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">菜单链接</label>
+              <div class="layui-input-block">
+                <input type="text" class="layui-input href" placeholder="请输入菜单链接">
+              </div>
+            </div>
+            <div class="layui-form-item magt3">
+              <label class="layui-form-label">菜单图标</label>
+              <div class="layui-input-block">
+                <input type="text" class="layui-input icon" placeholder="请选择菜单图标">
+                  <a class="layui-btn layui-btn-sm checkicon">查看图标</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-md3 layui-col-xs12">
+        <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
+        <div class="border">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i> 分类</label>
+            <div class="layui-input-block cate">
+              <select name="cate" lay-filter="cateMenu" id="cateMenu">
+                <option value="1">一级菜单</option>
+                <option value="2">二级菜单</option>
+                <option value="3">三级菜单</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i>上级菜单</label>
+            <div class="layui-input-block fid">
+              <select name="fid" lay-verify="required">
+                  <option  value="0">顶级菜单</option>
+                  <option>--以下为一级菜单--</option>
+                  <for exp="$key in $topMenu" as="top">
+                    <option  value="{{top.nav_id}}">{{top.title}}</option>
+                  </for>
+                  <option>--以下为二级菜单--</option>
+                  <for exp="$key in $secondMenu" as="sec">
+                    <option  value="{{sec.nav_id}}">{{sec.title}}</option>
+                  </for>
+              </select>
+            </div>
+          </div>
+
+          <hr class="layui-bg-gray" />
+          <div class="layui-right">
+            <a class="layui-btn layui-btn-sm" lay-filter="addMenu" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script>
+      layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+          laypage = layui.laypage,
+          upload = layui.upload,
+          layedit = layui.layedit,
+          laydate = layui.laydate,
+          $ = layui.jquery;
+
+        //格式化时间
+        function filterTime(val) {
+          if (val < 10) {
+            return "0" + val;
+          } else {
+            return val;
+          }
+        }
+
+        $(".checkicon").click(function(){
+            layer.open({
+              title: "选择图标",
+              area: ["680px", "680px"],
+              type: 2,
+              content: SERVER_PATH + "systemSetting/icons"
+            });
+        });
+
+        form.on("submit(addMenu)", function(data) {
+          //弹出loading
+          var index = top.layer.msg('数据提交中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          // 实际使用时的提交信息
+          $.post(JSON_API + 'addMenu', {
+            nav_id: $(".nav_id").val(),
+            title: $(".title").val(),
+            href: $(".href").val(),
+            icon: $(".icon").val(),
+            cate: $('.cate select').val(),
+            fid: $('.fid select').val(),
+            <?php
+                if($isToModel==1){
+                   echo 'mid: '.$model['id'];
+                } else {
+                   echo 'mid: ""';
+                }
+            ?>
+          }, function(res) {
+            top.layer.close(index);
+            if (res.success === '1') {
+              top.layer.msg("菜单更新成功！");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("菜单更新成功！");
+                layer.closeAll("iframe");
+                //刷新父页面
+                parent.location.reload();
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json')
+
+          return false;
+        });
+
+      })
+    </script>
+  </extend>
+</import>

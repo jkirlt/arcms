@@ -1,0 +1,171 @@
+<import from="/layout/global" name="html5">
+	<extend name="title">
+		系统设置
+	</extend>
+	<extend name="body">
+		<form class="layui-form layui-row">
+			<div class="layui-col-md3 layui-col-xs12 user_right">
+				<div class="layui-upload-list">
+					<img src="{{sysInfo.logo}}" class="layui-upload-img layui-circle logoBtn" id="logo" style="height: 100px;width: 100px;">
+				</div>
+				<div class="layui-input-block">
+					<input type="hidden" name="img" value="{{sysInfo.logo}}" class="layui-input logo">
+				</div>
+				<button type="button" class="layui-btn layui-btn-primary logoBtn"><i class="layui-icon">&#xe67c;</i> 掐指一算，我要换一个Logo了</button>
+
+			</div>
+			<input type="hidden" value="{{sysInfo.id}}" class="layui-input sysid">
+			<div class="layui-col-md6 layui-col-xs12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">系统标题</label>
+					<div class="layui-input-block">
+						<input type="text" value="{{sysInfo.title}}" lay-verify="required" class="layui-input title">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">版本</label>
+					<div class="layui-input-block">
+						<input type="text" value="{{sysInfo.version}}" lay-verify="required" class="layui-input version">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">版权</label>
+					<div class="layui-input-block">
+						<input type="text" value="{{sysInfo.copyright}}" lay-verify="required" class="layui-input copyright">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">开发作者</label>
+					<div class="layui-input-block">
+						<input type="text" value="{{sysInfo.author}}" lay-verify="required" class="layui-input author">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">登录背景</label>
+					<div class="layui-input-block">
+						<img src="{{sysInfo.loginbg}}" class="layui-upload-img loginbgBtn" id="loginbg" style="height: 220px;width: 320px;">
+						<input type="hidden" name="imgLogin" value="{{sysInfo.loginbg}}" class="layui-input loginbg">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">系统公告</label>
+					<div class="layui-input-block">
+						<textarea type="text" class="form-control notice" id="noticeedit" style="display: none;">{{sysInfo.notice}}</textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="" lay-filter="setSys">立即提交</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript">
+			var form, $,areaData;
+			layui.config({
+				base : JS_BASE
+			}).extend({
+				"address" : "address"
+			});
+			layui.use(['form','layer','upload','laydate','layedit',"address"],function(){
+				form = layui.form;
+				$ = layui.jquery;
+				var layer = parent.layer === undefined ? layui.layer : top.layer,
+						upload = layui.upload,
+						laydate = layui.laydate,
+						layedit = layui.layedit,
+						address = layui.address;
+
+				var editindex = layedit.build('noticeedit',{
+					tool: [
+						'strong' //加粗
+						,'italic' //斜体
+						,'underline' //下划线
+						,'del' //删除线
+						,'|' //分割线
+						,'left' //左对齐
+						,'center' //居中对齐
+						,'right' //右对齐
+						,'link' //超链接
+						,'unlink' //清除链接
+						,'face' //表情
+					]
+				});
+
+				// 上传Logo
+				upload.render({
+					url: JSON_API + "logoImg",
+					elem:'.logoBtn',
+					ext: 'jpg|png|gif',
+					area: ['500', '500px'],
+					before: function(input){
+						loading = layer.load(2, {
+							shade: [0.2,'#000']
+						});
+					},
+					done: function(res){
+						layer.close(loading);
+						var logo = res.data.data.src;
+						$('input[name=img]').val(logo);
+						$('#logo').attr('src',logo);
+					}
+				});
+
+				// 上传登录背景图
+				upload.render({
+					url: JSON_API + "loginBg",
+					elem:'.loginbgBtn',
+					ext: 'jpg|png|gif',
+					area: ['500', '500px'],
+					before: function(input){
+						loading = layer.load(2, {
+							shade: [0.2,'#000']
+						});
+					},
+					done: function(res){
+						layer.close(loading);
+						var img = res.data.data.src;
+						$('input[name=imgLogin]').val(img);
+						$('#loginbg').attr('src',img);
+					}
+				});
+
+				// 提交信息
+				form.on("submit(setSys)",function(data){
+					//弹出loading
+					var index = layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+					// 实际使用时的提交信息
+					$.post(JSON_API + 'setSys',{
+						id: $(".sysid").val(),
+						title : $(".title").val(),
+						version : $(".version").val(),
+						copyright : $(".copyright").val(),
+						author : $(".author").val(),
+						logo : $(".logo").val(),
+						loginbg : $(".loginbg").val(),
+						notice : layedit.getContent(editindex)
+					},function(res){
+						top.layer.close(index);
+						if (res.success === '1') {
+							top.layer.msg("提交成功！");
+							setTimeout(function(){
+								top.layer.close(index);
+								top.layer.msg("提交成功！");
+							},500);
+						} else {
+							top.layer.msg(res.error_msg);
+						}
+						return;
+					}, 'json');
+
+					return false;
+				});
+			});
+		</script>
+	</extend>
+</import>

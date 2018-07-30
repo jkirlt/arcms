@@ -1,0 +1,80 @@
+<import from="/layout/global" name="html5">
+	<extend name="title">
+		会员等级
+	</extend>
+	<extend name="body">
+		<form class="layui-form">
+			<table class="layui-table">
+				<thead>
+					<tr>
+						<th>权限名称</th>
+						<th>分配权限</th>
+					</tr>
+				</thead>
+				<tbody>
+				<for exp="$key in $roleList" as="r">
+					<tr>
+						<td>{{r.title}}</td>
+						<td>
+							<if exp="$r['check'] == '2'">
+							<else/>
+								<if exp="$r['check'] == '1'">
+									<a id="n0id_{{r.nav_id}}" class="layui-btn layui-btn-xs layui-btn-danger" title="点击取消分配权限">已分配</a>
+									<else/>
+									<a id="n1id_{{r.nav_id}}" class="layui-btn layui-btn-xs layui-btn-warm" title="点击分配权限">分配</a>
+								</if>
+							</if>
+
+							<input class="role_id" type="hidden" value="{{r.rid}}">
+						</td>
+					</tr>
+				</for>
+				</tbody>
+			</table>
+		</form>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/user.js"></script>
+		<script type="text/javascript">
+			layui.use(['form','layer','laydate','table','laytpl'],function(){
+				var form = layui.form,
+						layer = parent.layer === undefined ? layui.layer : top.layer,
+						$ = layui.jquery,
+						laydate = layui.laydate,
+						laytpl = layui.laytpl,
+						table = layui.table;
+
+				// 取消分配权限
+				$("[id^=n0id_]").click(function () {
+					var nav_id = $(this).attr("id").split("n0id_")[1];
+					var role_id = $(".role_id").val();
+					$.post(SERVER_PATH + 'user/changeRoleNav',{
+						nav_id : nav_id,
+						role_id : role_id,
+						type : 0
+					},function(data){
+						// layer.alert(data.ret_msg);
+						location.reload();
+					}, 'json')
+				});
+
+				// 分配权限
+				$("[id^=n1id_]").click(function () {
+					var nav_id = $(this).attr("id").split("n1id_")[1];
+					var role_id = $(".role_id").val();
+					$.post(SERVER_PATH + 'user/changeRoleNav',{
+						nav_id : nav_id,
+						role_id : role_id,
+						type : 1
+					},function(data){
+						// layer.alert(data.ret_msg);
+						location.reload();
+					}, 'json')
+				});
+
+			});
+		</script>
+	</extend>
+</import>

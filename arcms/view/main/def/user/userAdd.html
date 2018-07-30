@@ -1,0 +1,70 @@
+<import from="/layout/global" name="html5">
+	<extend name="title">
+		用户添加
+	</extend>
+	<extend name="body">
+		<form class="layui-form" style="width:80%;">
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">登录名</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input username" lay-verify="required" placeholder="请输入登录名">
+					<input type="hidden" class="layui-input id">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">昵称</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input nickname" lay-verify="required" placeholder="请输入昵称">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">真实姓名</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input realName" lay-verify="required" placeholder="请输入真实姓名">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">邮箱</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input userEmail" lay-verify="email" placeholder="请输入邮箱">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">电话</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input userPhone"  placeholder="请输入电话">
+				</div>
+			</div>
+			<div class="layui-row">
+
+				<div class="magb15 layui-col-md4 layui-col-xs12">
+					<label class="layui-form-label">会员状态</label>
+					<div class="layui-input-block">
+						<select name="status" class="status" lay-filter="status">
+							<option value="1">正常使用</option>
+							<option value="0">限制用户</option>
+						</select>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">用户简介</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入用户简介" class="layui-textarea myself"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addUser">立即添加</button>
+					<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+				</div>
+			</div>
+		</form>
+	</extend>
+
+	<extend name="jsfoot">
+		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/userAdd.js"></script>
+	</extend>
+</import>

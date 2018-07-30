@@ -1,0 +1,203 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    数据库表
+  </extend>
+  <extend name="body">
+    <form class="layui-form">
+      <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+          <div class="layui-inline">
+            <a class="layui-btn layui-btn-normal addCol_btn">添加字段</a>
+          </div>
+        </form>
+      </blockquote>
+      <!-- lay-filter="tableCols" -->
+      <table id="tableCols" lay-filter="tableCols"></table>
+
+      <!--操作-->
+      <script type="text/html" id="tableColsBar">
+
+      </script>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+    <script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+    <script>
+      layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+        var form = layui.form,
+          layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery,
+          laytpl = layui.laytpl,
+          table = layui.table;
+        var tname = "{{\ar\core\request('tname')}}";
+
+        var tableNameInfo = new Array();
+        tableNameInfo["tablename"] = tname; // tableNameInfo是一个数组，只包含 tablename 一个字段信息，用于新增字段时显示数据表名称
+
+        // 数据表列表
+        var tableIns = table.render({
+          elem: '#tableCols',
+          url: JSON_API + "tableCols/tname/" + tname,
+          cellMinWidth: 95,
+          id: "tableCols",
+          cols: [
+            [{
+                field: 'colname',
+                title: '字段名称',
+                minWidth: 180,
+                align: "center"
+              },
+              {
+                field: 'explain',
+                title: '字段说明',
+                minWidth: 150,
+                align: "center"
+              },
+              {
+                field: 'isshow',
+                title: '是否显示',
+                minWidth: 80,
+                align: 'center',
+                templet: function(d) {
+                  return d.isshow == "1" ? "显示" : "不显示";
+                }
+              },
+              {
+                field: 'isunique',
+                title: '唯一键',
+                minWidth: 80,
+                align: 'center',
+                templet: function(d) {
+                  return d.isunique == "1" ? "是" : "否";
+                }
+              },
+
+              {
+                field: 'isedit',
+                title: '可编辑',
+                minWidth: 80,
+                align: 'center',
+                templet: function(d) {
+                  return d.isedit == "1" ? "可编辑" : "不可编辑";
+                }
+              },
+
+              {
+                field: 'type',
+                title: '字段类型',
+                minWidth: 100,
+                align: 'center',
+                templet: function(d) {
+                  if(d.type == "0"){
+                   return "字符串";
+                  } else if(d.type == "1"){
+                    return "多个状态值";
+                  } else if(d.type == "2"){
+                    return "开关状态值";
+                  } else if(d.type == "3"){
+                    return "文章";
+                  } else if(d.type == "4"){
+                    return "图片";
+                  } else if(d.type == "5"){
+                    return "时间戳";
+                  } else if(d.type == "6"){
+                    return "整数";
+                  } else if(d.type == "7"){
+                    return "浮点数";
+                  } else if(d.type == "8"){
+                    return "外键";
+                  }
+                }
+              },
+              {
+                field: 'typeexplain',
+                title: '字段类型说明',
+                minWidth: 120,
+                align: 'center'
+              },
+              {
+                field: 'ordernum',
+                title: '排序',
+                minWidth: 80,
+                align: 'center'
+              },
+              {
+                field: 'issort',
+                title: '排序支持',
+                minWidth: 80,
+                align: 'center',
+                templet: function(d) {
+                  return d.issort == "1" ? "支持" : "不支持";
+                }
+              },
+              {
+                field: '',
+                title: '操作',
+                templet: '#tableColsBar',
+                fixed: "right",
+                maxWidth: 75,
+                align: "center",
+                templet: function(d) {
+                  return '<a class="layui-btn layui-btn-xs" lay-event="editCols">编辑</a>';
+                }
+              }
+            ]
+          ]
+        });
+
+        // 添加字段
+        $(".addCol_btn").click(function() {
+          manageCols(tableNameInfo);
+        });
+
+        //列表操作
+        table.on('tool(tableCols)', function(obj) {
+          var layEvent = obj.event,
+            data = obj.data;
+          if (layEvent === 'editCols') {
+            manageCols(data);
+          };
+        });
+
+        // 管理数据表字段
+        function manageCols(data) {
+          var index = layui.layer.open({
+            title: "管理字段", //"管理 "+data.tablename+" 表的字段",
+            type: 2,
+            content: SERVER_PATH + "SystemSetting/manageCols",
+            success: function(layero, index) {
+              var body = layui.layer.getChildFrame('body', index);
+              if (data) {
+                body.find(".id").val(data.id);
+                body.find(".tablename").val(data.tablename); // 数据表名
+                body.find(".colname").val(data.colname); // 字段名
+                body.find(".explain").val(data.explain); // 字段说明
+                body.find(".isshow").val(data.isshow); // 是否显示，默认1显示，0不显示
+                body.find(".isedit").val(data.isedit); // 是否可编辑，默认1可编辑，0不可编辑
+                body.find(".isunique").val(data.isunique); // 是否可编辑，默认1可编辑，0不可编辑
+                body.find(".ordernum").val(data.ordernum); // 排序值，值越大，显示在越前面
+                body.find(".type").val(data.type); // 字段类型
+                body.find(".typeexplain").val(data.typeexplain); // 字段类型说明
+                body.find(".issort").val(data.issort);
+                form.render();
+              }
+              setTimeout(function() {
+                layui.layer.tips('点击此处返回数据表列表', '.layui-layer-setwin .layui-layer-close', {
+                  tips: 3
+                });
+              }, 500)
+            }
+          });
+          layui.layer.full(index);
+          //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+          $(window).on("resize", function() {
+            layui.layer.full(index);
+          });
+        }
+
+
+      })
+    </script>
+  </extend>
+</import>

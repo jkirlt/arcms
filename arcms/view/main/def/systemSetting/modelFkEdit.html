@@ -1,0 +1,125 @@
+<import from="/layout/global" name="html5">
+  <extend name="title">
+    管理数据表关联模型
+  </extend>
+  <extend name="body">
+    <form class="layui-form" style="width:80%;">
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主数据表名</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mtablename}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表模型名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mmodelname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表模型id</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mid}}" disabled="disabled" class="layui-input mid">
+          <input type="hidden" value="{{fk.id}}" class="id">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表字段名称</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mcolname}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">主表字段说明</label>
+        <div class="layui-input-block">
+          <input type="text" value="{{fk.mexplain}}" disabled="disabled" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="magb15 layui-col-md4 layui-col-xs12">
+          <label class="layui-form-label">关联模型</label>
+          <div class="layui-input-block">
+            <select name="fmodel" class="fmodel" lay-filter="fmodel">
+              <if exp="$fk['fid'] > 0">
+                <option value="{{fk.fid}}">{{fk.fmodelname}}</option>
+              <else/>
+                <option value="0">请选择关联模型</option>
+              </if>
+              <for exp="$key in $modellist" as="model">
+                <if exp="$fk['fid'] != $model['id']">
+                  <option value="{{model.id}}">{{model.modelname}}</option>
+                </if>
+              </for>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="manageCols">下一步</button>
+          <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+  </extend>
+
+  <extend name="jsfoot">
+
+    <script>
+      layui.use(['form', 'layer'], function() {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+          $ = layui.jquery;
+
+        form.on("submit(manageCols)", function(data) {
+          //弹出loading
+          var index = top.layer.msg('数据提交中，请稍候', {
+            icon: 16,
+            time: false,
+            shade: 0.8
+          });
+          var fid = $(".fmodel").val();
+          var id = $(".id").val();
+          // 实际使用时的提交信息
+          $.post(JSON_API + 'manageFkModel', {
+            id: id,
+            fid: fid
+          }, function(res) {
+            top.layer.close(index);
+            if (res.success === '1') {
+              top.layer.msg("编辑成功！请编辑关联字段");
+              setTimeout(function() {
+                top.layer.close(index);
+                top.layer.msg("编辑成功！请编辑关联字段");
+                layer.closeAll("iframe");
+
+                var url = SERVER_PATH + "systemSetting/modelColFkEdit/id/" + id;
+                openPage(url, '模型外键字段编辑')
+              }, 500);
+            } else {
+              top.layer.msg(res.error_msg);
+            }
+            return;
+          }, 'json')
+          return false;
+        });
+
+        //格式化时间
+        function filterTime(val) {
+          if (val < 10) {
+            return "0" + val;
+          } else {
+            return val;
+          }
+        }
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear() + '-' + filterTime(time.getMonth() + 1) + '-' + filterTime(time.getDate()) + ' ' + filterTime(time.getHours()) + ':' + filterTime(time.getMinutes()) + ':' + filterTime(time.getSeconds());
+
+      })
+    </script>
+
+  </extend>
+</import>
