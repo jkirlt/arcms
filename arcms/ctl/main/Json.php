@@ -124,20 +124,6 @@ class Json extends Controller
         return;
     }
 
-    ############### yxf
-    public function requirementList()
-    {
-        $requirementLists = $this->getRequirementService()->requirementList($this->request);
-        $backJson = [
-            'code' => 0,
-            'msg' => '',
-            'count' => $requirementLists['count'],
-            'data' => $requirementLists['requirements'],
-        ];
-        $this->showJson($backJson, array('data' => true));
-        return;
-    }
-
     // 数据表
     public function tableList()
     {

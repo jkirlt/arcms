@@ -50,7 +50,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 	})
 
 	// 默认显示的菜单项目
-	getData(20);
+	getData(1);
 
 	//手机设备的简单适配
     $('.site-tree-mobile').on('click', function(){

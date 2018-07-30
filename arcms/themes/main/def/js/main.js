@@ -75,19 +75,6 @@ layui.use(['form','element','layer','jquery'],function(){
         $(".userRights").text(nullData(data.userRights));//当前用户权限
     }
 
-    //最新文章列表
-    $.get(JSON_API + "newsList",function(data){
-        var hotNewsHtml = '';
-        for(var i=0;i<5;i++){
-            hotNewsHtml += '<tr>'
-                +'<td align="left"><a href="javascript:;"> '+data.data[i].newsName+'</a></td>'
-                +'<td>'+data.data[i].newsTime.substring(0,10)+'</td>'
-                +'</tr>';
-        }
-        $(".hot_news").html(hotNewsHtml);
-        $(".userAll span").text(data.length);
-    }, 'json')
-
     //用户数量
     $.get(JSON_API + "userList",function(data){
         $(".userAll span").text(data.count);
