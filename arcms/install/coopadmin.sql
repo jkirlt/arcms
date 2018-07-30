@@ -204,6 +204,11 @@ CREATE TABLE `coopadmin_system_setting` (
 -- ----------------------------
 -- Records of coopadmin_system_setting
 -- ----------------------------
+LOCK TABLES `coopadmin_system_setting` WRITE;
+/*!40000 ALTER TABLE `coopadmin_system_setting` DISABLE KEYS */;
+INSERT INTO `coopadmin_system_setting` VALUES (1,'arcms','1.0','成都成达传网络科技有限公司','靠谱云开发官方Team','mysql','/coop/coopsystem/arcms/themes/main/def/images/logo/f514fec0d8cff36b15e56acc8b1114f9.png','/coop/coopsystem/arcms/themes/main/def/images/loginbg/b1d7cc6f64fe5c763375d7786a688833.jpg','<b>欢迎使用arcms</b>',0,1528336553);
+/*!40000 ALTER TABLE `coopadmin_system_setting` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- ----------------------------
 -- Table structure for coopadmin_user
@@ -230,6 +235,11 @@ CREATE TABLE `coopadmin_user` (
 -- ----------------------------
 -- Records of coopadmin_user
 -- ----------------------------
+LOCK TABLES `coopadmin_user` WRITE;
+/*!40000 ALTER TABLE `coopadmin_user` DISABLE KEYS */;
+INSERT INTO `coopadmin_user` VALUES (1,'jkirlt','超级管理员','baab42a126a685b39b19a791195b7a66','','','','','',1,1,0,1528336537,'');
+/*!40000 ALTER TABLE `coopadmin_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- ----------------------------
 -- Table structure for coopadmin_user_role

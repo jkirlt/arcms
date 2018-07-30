@@ -298,6 +298,7 @@ switch ($action)
 			$superAdmin = [
 					'username' => $regname,
 					'password' => \arcms\lib\model\User::pwd($regpwd),
+				    'logintime' => time()
 			];
 			\ar\core\comp('db.mysql')->table('coopadmin_user')
 					->where(['id' => 1])
