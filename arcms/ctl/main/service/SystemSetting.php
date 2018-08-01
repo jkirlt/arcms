@@ -286,7 +286,17 @@ class SystemSetting
             // 在 $data['table']表中，新增 $data['colname'] 字段，默认 varchar(100) NOT NULL
             $link = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
             if ($link) {
-                mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." varchar(100) NOT NULL ") or die(mysql_error());
+                if($data['type']==1){
+                    mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." int(11) NOT NULL ") or die(mysql_error());
+                } else if($data['type']==2){
+                    mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." int(11) NOT NULL ") or die(mysql_error());
+                } else if($data['type']==3){
+                    mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." text NOT NULL ") or die(mysql_error());
+                } else if($data['type']==8){
+                    mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." int(11) NOT NULL ") or die(mysql_error());
+                }else {
+                    mysqli_query($link ,"ALTER TABLE ".$data['tablename']." ADD ".$data['colname']." varchar(255) NOT NULL ") or die(mysql_error());
+                }
             } else {
                 return false;
             }
