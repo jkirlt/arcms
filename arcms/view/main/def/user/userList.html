@@ -54,12 +54,7 @@
             {field: 'nickname', title: '昵称', minWidth:100, align:"center"},
             {field: 'userEmail', title: '用户邮箱', minWidth:200, align:'center'},
             {field: 'userPhone', title: '用户电话', minWidth:150, align:'center'},
-            {field: 'status', title: '用户状态',  align:'center',templet:function(d){
-                return d.status == "1" ? "正常使用" : "限制使用";
-            }},
-            {field: 'isAdmin', title: '是否管理员',  align:'center',templet:function(d){
-                return d.isAdmin == "1" ? "管理员" : "普通用户";
-            }},
+            {field: 'group', title: '用户角色',  align:'center'},
             {title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
         ]]
     });
@@ -83,7 +78,7 @@
     //添加用户
     function addUser(edit){
         var index = layui.layer.open({
-            title : "添加用户",
+            title : "添加系统用户",
             type : 2,
             content : SERVER_PATH + "user/userAdd",
             success : function(layero, index){

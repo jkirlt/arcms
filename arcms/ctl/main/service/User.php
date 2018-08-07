@@ -238,6 +238,23 @@ class User
             ->order('id desc')
             ->queryAll();
 
+        foreach($users as $user => $uv){
+            $urs = UserRoleModel::model()->getDb()
+                ->where(['uid' => $uv['id']])
+                ->select('role_id')
+                ->queryAll();
+
+            $users[$user]['group'] = "";
+
+            foreach($urs as $key => $value) {
+                $roleName = RoleModel::model()->getDb()->where(['id' => $value['role_id']])->queryRow();
+                $urs[$key]['rname'] = $roleName['name'];
+                $users[$user]['group'] = $users[$user]['group'] . " " . $urs[$key]['rname'];
+            }
+        }
+
+
+
         return [
             'users' => $users,
             'count' => $totalCount

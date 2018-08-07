@@ -105,7 +105,7 @@ class Json extends Controller
 
         $addSuccess = $this->getUserService()->addUser($data);
         if ($addSuccess) {
-            $this->showJsonSuccess('添加用户成功');
+            $this->showJsonSuccess('提交成功，请分配角色');
         } else {
             $this->showJsonError('添加用户失败', '6002');
         }
