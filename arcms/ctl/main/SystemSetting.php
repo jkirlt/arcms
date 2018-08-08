@@ -81,7 +81,11 @@ class SystemSetting extends Controller
     public function modelFkView()
     {
         $data = \ar\core\request();
-        $mtable = $this->getDataService()->getFkModel($data);
+        $con = [
+            'mtablename' => $data['mtablename'],
+            'mcolname'   => $data['mcolname']
+        ];
+        $mtable = $this->getDataService()->getFkModel($con);
 
         $this->assign(['fk' => $mtable]);
         $this->display('/systemSetting/modelFkView');
@@ -91,7 +95,11 @@ class SystemSetting extends Controller
     public function modelFkEdit()
     {
         $data = \ar\core\request();
-        $mtable = $this->getDataService()->getFkModel($data);
+        $con = [
+            'mtablename' => $data['mtablename'],
+            'mcolname'   => $data['mcolname']
+        ];
+        $mtable = $this->getDataService()->getFkModel($con);
         $modelList = $this->getDataService()->getModelList();
 
         $this->assign(['fk' => $mtable]);

@@ -264,15 +264,25 @@ class User
     // 添加用户
     public function addUser($data)
     {
+        $password = UserModel::model()->pwd('123456');
+        $newUserInfo = [
+            'username' => $data['username'],
+            'nickname' => $data['nickname'],
+            'realName' => $data['realName'],
+            'userEmail' => $data['userEmail'],
+            'userPhone' => $data['userPhone'],
+            'myself' => $data['myself'],
+            'status' => $data['status'],
+            'password' => $password,
+        ];
+
         if ($uid = $data['id']) {
             // 更新
             return UserModel::model()->getDb()
                 ->where(['id' => $uid])
                 ->update($data, 1);
         } else {
-            $password = UserModel::model()->pwd('123456');
-            $data['password'] = $password;
-            return UserModel::model()->getDb()->insert($data, 1);
+            return UserModel::model()->getDb()->insert($newUserInfo, 1);
         }
     }
 
