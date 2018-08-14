@@ -195,6 +195,7 @@ CREATE TABLE `coopadmin_system_setting` (
   `logo` varchar(255) DEFAULT NULL COMMENT '网站logo',
   `loginbg` varchar(255) DEFAULT NULL COMMENT '登录背景图',
   `notice` text COMMENT '系统公告',
+  `url` varchar(255) DEFAULT NULL COMMENT '网站地址',
   `onelogin` int(11) DEFAULT '0' COMMENT '开启单一登录 1开 0关',
   `settime` int(11) DEFAULT NULL COMMENT '上次修改设定时间',
   PRIMARY KEY (`id`)
@@ -205,7 +206,7 @@ CREATE TABLE `coopadmin_system_setting` (
 -- ----------------------------
 LOCK TABLES `coopadmin_system_setting` WRITE;
 /*!40000 ALTER TABLE `coopadmin_system_setting` DISABLE KEYS */;
-INSERT INTO `coopadmin_system_setting` VALUES (1,'成致后台管理','1.0','成都成达传网络科技有限公司','靠谱云开发官方Team','mysql','https://www.028cdc.cn/icon/1/logo.png','https://www.coopcoder.com/assets/img/home_back.jpg','<b>欢迎使用arcms</b>',0,1528336553);
+INSERT INTO `coopadmin_system_setting` VALUES (1,'成致后台管理','1.0','成都成达传网络科技有限公司','靠谱云开发官方Team','mysql','https://www.028cdc.cn/icon/1/logo.png','https://www.coopcoder.com/assets/img/home_back.jpg','<b>欢迎使用arcms</b>','https://',0,1528336553);
 /*!40000 ALTER TABLE `coopadmin_system_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 

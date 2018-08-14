@@ -53,6 +53,12 @@
 						<textarea type="text" class="form-control notice" id="noticeedit" style="display: none;">{{sysInfo.notice}}</textarea>
 					</div>
 				</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">官网地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="{{sysInfo.url}}" class="layui-input url">
+                    </div>
+                </div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button class="layui-btn" lay-submit="" lay-filter="setSys">立即提交</button>
@@ -148,7 +154,8 @@
 						author : $(".author").val(),
 						logo : $(".logo").val(),
 						loginbg : $(".loginbg").val(),
-						notice : layedit.getContent(editindex)
+						notice : layedit.getContent(editindex),
+                        url : $(".url").val()
 					},function(res){
 						top.layer.close(index);
 						if (res.success === '1') {
