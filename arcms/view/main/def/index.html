@@ -29,11 +29,11 @@
       <div class="layui-main mag0">
         <a href="#" class="logo">{{systemInfo.title}}</a>
         <!-- 显示/隐藏菜单 -->
-        <a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
+        <a href="javascript:;" class="seraph hideMenu layui-icon layui-icon-release"></a>
         <!-- 顶级菜单 -->
         <ul class="layui-nav mobileTopLevelMenus" mobile>
-          <li class="layui-nav-item" data-menu="{{top.href}}">
-            <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>{{systemInfo.title}}</cite></a>
+          <li class="layui-nav-item">
+            <a href="javascript:;"><i class="seraph layui-icon layui-icon-link"></i><cite>{{systemInfo.title}}</cite></a>
             <dl class="layui-nav-child">
               <for exp="$key in $topMenu" as="top">
                 <dd menuid="{{top.nav_id}}" data-menu="{{top.href}}">
@@ -55,7 +55,7 @@
         <else/>
           <ul class="layui-nav mobileTopLevelMenus" pc>
             <li class="layui-nav-item" data-menu="{{top.href}}">
-              <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>{{systemInfo.title}}</cite></a>
+              <a href="javascript:;"><i class="seraph layui-icon layui-icon-link"></i><cite>{{systemInfo.title}}</cite></a>
               <dl class="layui-nav-child">
                 <for exp="$key in $topMenu" as="top">
                   <dd menuid="{{top.nav_id}}" data-menu="{{top.href}}">
@@ -73,19 +73,19 @@
             <a href="javascript:;" class="clearCache"><i class="layui-icon" data-icon="&#xe640;">&#xe640;</i><cite>清除缓存</cite><span class="layui-badge-dot"></span></a>
           </li>
           <li class="layui-nav-item lockcms" pc>
-            <a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>
+            <a href="javascript:;"><i class="seraph layui-icon layui-icon-password"></i><cite>锁屏</cite></a>
           </li>
           <li class="layui-nav-item" id="userInfo">
             <a href="javascript:;"><img src="{{user.userFace}}" class="layui-nav-img userAvatar" width="35" height="35"><cite class="adminName">{{user.nickname}}</cite></a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;" data-url="{{\ar\core\url('user/userInfo')}}"><i class="seraph icon-ziliao" data-icon="icon-ziliao"></i><cite>个人资料</cite></a></dd>
-              <dd><a href="javascript:;" data-url="{{\ar\core\url('user/changePwd')}}"><i class="seraph icon-xiugai" data-icon="icon-xiugai"></i><cite>修改密码</cite></a></dd>
+              <dd><a href="javascript:;" data-url="{{\ar\core\url('user/userInfo')}}"><i class="seraph layui-icon layui-icon-user"></i><cite>个人资料</cite></a></dd>
+              <dd><a href="javascript:;" data-url="{{\ar\core\url('user/changePwd')}}"><i class="seraph layui-icon layui-icon-vercode"></i><cite>修改密码</cite></a></dd>
               <dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>
               <if exp="$user['isadmin1'] == 1">
                 <dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite><span class="layui-badge-dot"></span></a></dd>
               </if>
               <dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
-              <dd><a ap-href="login/loginout" class="signOut"><i class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
+              <dd><a ap-href="login/loginout" class="signOut"><i class="seraph layui-icon layui-icon-close-fill"></i><cite>退出</cite></a></dd>
             </dl>
           </li>
         </ul>
@@ -124,9 +124,9 @@
           <li class="layui-nav-item">
             <a href="javascript:;"><i class="layui-icon caozuo">&#xe643;</i> 页面操作</a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;" class="refresh refreshThis"><i class="layui-icon">&#x1002;</i> 刷新当前</a></dd>
-              <dd><a href="javascript:;" class="closePageOther"><i class="seraph icon-prohibit"></i> 关闭其他</a></dd>
-              <dd><a href="javascript:;" class="closePageAll"><i class="seraph icon-guanbi"></i> 关闭全部</a></dd>
+              <dd><a href="javascript:;" class="refresh refreshThis"><i class="layui-icon layui-icon-refresh"></i> 刷新当前</a></dd>
+              <dd><a href="javascript:;" class="closePageOther"><i class="seraph layui-icon layui-icon-menu-fill"></i> 关闭其他</a></dd>
+              <dd><a href="javascript:;" class="closePageAll"><i class="seraph layui-icon layui-icon-close"></i> 关闭全部</a></dd>
             </dl>
           </li>
         </ul>

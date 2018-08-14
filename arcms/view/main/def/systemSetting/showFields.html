@@ -22,7 +22,7 @@
   </extend>
 
   <extend name="jsfoot">
-    <script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
+
     <script>
       layui.use(['form', 'layer', 'table', 'laytpl'], function() {
         var form = layui.form,
@@ -35,6 +35,7 @@
         var tableNameInfo = new Array();
         tableNameInfo["tablename"] = tname; // tableNameInfo是一个数组，只包含 tablename 一个字段信息，用于新增字段时显示数据表名称
 
+      setTimeout(function() {
         // 数据表列表
         var tableIns = table.render({
           elem: '#tableCols',
@@ -145,7 +146,7 @@
             ]
           ]
         });
-
+      }, 300);
         // 添加字段
         $(".addCol_btn").click(function() {
           manageCols(tableNameInfo);
@@ -191,9 +192,9 @@
           });
           layui.layer.full(index);
           //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-          $(window).on("resize", function() {
-            layui.layer.full(index);
-          });
+//          $(window).on("resize", function() {
+//            layui.layer.full(index);
+//          });
         }
 
 

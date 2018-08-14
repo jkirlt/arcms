@@ -131,11 +131,11 @@ LOCK TABLES `coopadmin_nav` WRITE;
 INSERT INTO `coopadmin_nav` VALUES ('1', '权限设置', '&#xe613;', 'memberCenter', '0', null, '1', '0', '1', '1', '1', null);
 INSERT INTO `coopadmin_nav` VALUES ('2', '系统设置', '&#xe620;', 'systemeSttings', '0', null, '1', '0', '1', '1', '1', null);
 INSERT INTO `coopadmin_nav` VALUES ('3', '系统用户列表', '&#xe612;', 'users/userList', '0', null, '2', '1', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('4', '系统用户角色', 'icon-vip', 'users/userGrade', '0', null, '2', '1', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('5', '菜单列表', 'icon-mokuai', 'systems/menuList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('6', '数据库表', 'icon-caidan', 'systems/tableList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('7', '模型表', 'icon-ziliao', 'systems/modelList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('8', '参数设置', 'icon-xiugai', 'systems/setSystem', '0', null, '2', '2', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('4', '系统用户角色', '&#xe770;', 'users/userGrade', '0', null, '2', '1', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('5', '菜单列表', '&#xe62a;', 'systems/menuList', '0', null, '2', '2', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('6', '数据库表', '&#xe62d;', 'systems/tableList', '0', null, '2', '2', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('7', '模型表', '&#xe638;', 'systems/modelList', '0', null, '2', '2', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('8', '参数设置', '&#xe614;', 'systems/setSystem', '0', null, '2', '2', '0', '1', '1', null);
 UNLOCK TABLES;
 
 -- ----------------------------
@@ -205,7 +205,7 @@ CREATE TABLE `coopadmin_system_setting` (
 -- ----------------------------
 LOCK TABLES `coopadmin_system_setting` WRITE;
 /*!40000 ALTER TABLE `coopadmin_system_setting` DISABLE KEYS */;
-INSERT INTO `coopadmin_system_setting` VALUES (1,'arcms','1.0','成都成达传网络科技有限公司','靠谱云开发官方Team','mysql','https://www.028cdc.cn/icon/1/logo.png','https://www.coopcoder.com/assets/img/home_back.jpg','<b>欢迎使用arcms</b>',0,1528336553);
+INSERT INTO `coopadmin_system_setting` VALUES (1,'成致后台管理','1.0','成都成达传网络科技有限公司','靠谱云开发官方Team','mysql','https://www.028cdc.cn/icon/1/logo.png','https://www.coopcoder.com/assets/img/home_back.jpg','<b>欢迎使用arcms</b>',0,1528336553);
 /*!40000 ALTER TABLE `coopadmin_system_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +236,7 @@ CREATE TABLE `coopadmin_user` (
 -- ----------------------------
 LOCK TABLES `coopadmin_user` WRITE;
 /*!40000 ALTER TABLE `coopadmin_user` DISABLE KEYS */;
-INSERT INTO `coopadmin_user` VALUES (1,'jkirlt','超级管理员','baab42a126a685b39b19a791195b7a66','','','','','https://www.coopcoder.com/assets/img/logo_black.png',1,1,0,1528336537,'');
+INSERT INTO `coopadmin_user` VALUES (1,'jkirlt','超级管理员','baab42a126a685b39b19a791195b7a66','','','','','https://www.028cdc.cn/icon/1/logo1.png',1,1,0,1528336537,'');
 /*!40000 ALTER TABLE `coopadmin_user` ENABLE KEYS */;
 UNLOCK TABLES;
 

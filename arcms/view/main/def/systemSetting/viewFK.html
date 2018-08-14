@@ -32,7 +32,7 @@
 
         var tableNameInfo = new Array();
         tableNameInfo["tablename"] = tname; // tableNameInfo是一个数组，只包含 tablename 一个字段信息，用于新增字段时显示数据表名称
-
+      setTimeout(function() {
         // 数据表列表
         var tableIns = table.render({
           elem: '#tableCols',
@@ -93,6 +93,7 @@
             ]
           ]
         });
+      }, 300);
 
 
         //列表操作
