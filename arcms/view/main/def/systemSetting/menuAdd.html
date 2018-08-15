@@ -969,7 +969,7 @@
           }
         }
 
-
+        // 处理选择图标
         $(".site-doc-icon").hide();
 
         $(".checkicon").click(function(){
@@ -982,6 +982,7 @@
             $(".site-doc-icon").hide();
         });
 
+        // 提交
         form.on("submit(addMenu)", function(data) {
           //弹出loading
           var index = top.layer.msg('数据提交中，请稍候', {
