@@ -31,45 +31,52 @@
                   <a class="layui-btn layui-btn-sm checkicon">查看图标</a>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="layui-col-md3 layui-col-xs12">
-        <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
-        <div class="border">
-          <div class="layui-form-item">
-            <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i> 分类</label>
-            <div class="layui-input-block cate">
-              <select name="cate" lay-filter="cateMenu" id="cateMenu">
-                <option value="1">一级菜单</option>
-                <option value="2">二级菜单</option>
-                <option value="3">三级菜单</option>
-              </select>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i>上级菜单</label>
-            <div class="layui-input-block fid">
-              <select name="fid" lay-verify="required">
-                  <option  value="0">顶级菜单</option>
-                  <option>--以下为一级菜单--</option>
-                  <for exp="$key in $topMenu" as="top">
-                    <option  value="{{top.nav_id}}">{{top.title}}</option>
-                  </for>
-                  <option>--以下为二级菜单--</option>
-                  <for exp="$key in $secondMenu" as="sec">
-                    <option  value="{{sec.nav_id}}">{{sec.title}}</option>
-                  </for>
-              </select>
-            </div>
+
+
+
           </div>
 
-          <hr class="layui-bg-gray" />
-          <div class="layui-right">
-            <a class="layui-btn layui-btn-sm" lay-filter="addMenu" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
-          </div>
+            <div class="layui-col-md3 layui-col-xs12">
+                <blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
+                <div class="border">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i> 分类</label>
+                        <div class="layui-input-block cate">
+                            <select name="cate" lay-filter="cateMenu" id="cateMenu">
+                                <option value="1">一级菜单</option>
+                                <option value="2">二级菜单</option>
+                                <option value="3">三级菜单</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i>上级菜单</label>
+                        <div class="layui-input-block fid">
+                            <select name="fid" lay-verify="required">
+                                <option  value="0">顶级菜单</option>
+                                <option>--以下为一级菜单--</option>
+                                <for exp="$key in $topMenu" as="top">
+                                    <option  value="{{top.nav_id}}">{{top.title}}</option>
+                                </for>
+                                <option>--以下为二级菜单--</option>
+                                <for exp="$key in $secondMenu" as="sec">
+                                    <option  value="{{sec.nav_id}}">{{sec.title}}</option>
+                                </for>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="layui-bg-gray" />
+                    <div class="layui-right">
+                        <a class="layui-btn layui-btn" lay-filter="addMenu" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
       </div>
+
     </form>
   </extend>
 
@@ -94,12 +101,13 @@
         }
 
         $(".checkicon").click(function(){
-            layer.open({
-              title: "选择图标",
-              area: ["680px", "680px"],
-              type: 2,
-              content: SERVER_PATH + "systemSetting/icons"
-            });
+//            layer.open({
+//              title: "选择图标",
+//              area: ["680px", "680px"],
+//              type: 2,
+//              content: SERVER_PATH + "systemSetting/icons"
+//            });
+
         });
 
         form.on("submit(addMenu)", function(data) {
@@ -112,7 +120,7 @@
           // 实际使用时的提交信息
           $.post(JSON_API + 'addMenu', {
             nav_id: $(".nav_id").val(),
-            title: $(".title").val(),
+            title: $(".title").val().replace(/&nbsp;/gi,''),
             href: $(".href").val(),
             icon: $(".icon").val(),
             cate: $('.cate select').val(),

@@ -54,7 +54,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     // 添加菜单页面
     function addMenu(edit){
         var index = layui.layer.open({
-            title : "添加菜单",
+            title : "菜单内容",
             type : 2,
             content : SERVER_PATH + "systemSetting/menuAdd",
             success : function(layero, index){
