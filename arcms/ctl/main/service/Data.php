@@ -277,6 +277,14 @@ class Data
 
     }
 
+    // 删除管理员
+    public function delAdmin($id)
+    {
+        $del = \arcms\lib\model\User::model()->getDb()->where(['id' => $id])->delete();
+        return $del;
+
+    }
+
     // 根据id查找自定义功能详情
     public function getFuncById($id)
     {

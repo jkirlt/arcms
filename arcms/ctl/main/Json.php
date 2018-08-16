@@ -69,6 +69,40 @@ class Json extends Controller
         }
     }
 
+    // 删除系统用户
+    public function delAdmin($id)
+    {
+        // 获取当前登录用户id
+        $user = \ar\core\comp('lists.session')->get('userDetal');
+        $nowid = $user['id'];
+
+        // 判断是否为超级管理员
+        $isadmin1 = 0;
+        $urs = \arcms\lib\model\UserRole::model()->getDb()
+            ->where(['uid' => $id])
+            ->select('role_id')
+            ->queryAll();
+        foreach($urs as $ur) {
+            if($ur['role_id']==1){
+                $isadmin1 = 1;
+            }
+        }
+
+        if($nowid == $id){
+            $this->showJsonError('删除失败,不能删除当前登录用户', '6002');
+        } else if($isadmin1 == 1){
+            $this->showJsonError('删除失败,不能删除超级管理员', '6001');
+        } else {
+            $delResult = $this->getDataService()->delAdmin($id);
+            if ($delResult) {
+                $this->showJsonSuccess('删除成功');
+            } else {
+                $this->showJsonError('删除失败', '6003');
+            }
+        }
+
+    }
+
     // 添加自定义功能
     public function funcEdit()
     {

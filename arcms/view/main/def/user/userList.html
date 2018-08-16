@@ -23,7 +23,7 @@
 			<script type="text/html" id="userListBar">
 				<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="graup">分配角色</a>
 				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-				<!--<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>-->
+				<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 			</script>
 		</form>
 	</extend>
@@ -175,13 +175,19 @@
         }else if(layEvent === 'graup'){ // 分配角色
             addGraup(data);
         } else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
-                // $.get("删除文章接口",{
-                //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                // })
+            layer.confirm('确定删除此系统用户？',{icon:3, title:'提示信息'},function(index){
+                $.post(JSON_API + 'delAdmin', {
+                    id : data.id  //将需要删除的id作为参数传入
+                },function(data){
+                    if (data.success == '1') {
+                        tableIns.reload();
+                        layer.close(index);
+                        layer.msg(data.ret_msg);
+                    } else {
+                        top.layer.msg(data.error_msg);
+                    }
+
+                }, 'json')
             });
         }
     });
