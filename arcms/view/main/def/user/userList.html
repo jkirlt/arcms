@@ -23,7 +23,11 @@
 			<script type="text/html" id="userListBar">
 				<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="graup">分配角色</a>
 				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-				<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+                <?php
+                    if($isadmin1==1){
+                       echo '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>';
+                    }
+                ?>
 			</script>
 		</form>
 	</extend>

@@ -17,6 +17,21 @@ class Users extends Base
 {
     public function userList()
     {
+        $userDetal = $this->getUserService()->getLoginUser();
+        $uid = $userDetal['id'];
+        // 判断是否为超级管理员
+        $isadmin1 = 0;
+        $urs = \arcms\lib\model\UserRole::model()->getDb()
+            ->where(['uid' => $uid])
+            ->select('role_id')
+            ->queryAll();
+        foreach($urs as $ur) {
+            if($ur['role_id']==1){
+                $isadmin1 = 1;
+            }
+        }
+
+        $this->assign(['isadmin1' => $isadmin1]);
         $this->display('/user/userList');
     }
 
