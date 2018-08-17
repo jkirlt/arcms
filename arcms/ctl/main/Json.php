@@ -629,7 +629,7 @@ class Json extends Controller
         $dstDir = AR_ROOT_PATH . 'arcms/themes/main/def/images/logo';
         $picName = \ar\core\comp('ext.upload')->upload('file',$dstDir,'img');
 
-        $path = 'http://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.PUBLIC') . 'images/logo/' . $picName['filename'];
+        $path = 'https://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.PUBLIC') . 'images/logo/' . $picName['filename'];
 
         $backJson = [
             'code' => 0,
@@ -677,7 +677,7 @@ class Json extends Controller
         $dstDir = AR_ROOT_PATH . 'arcms/themes/main/def/images/loginbg';
         $picName = \ar\core\comp('ext.upload')->upload('file',$dstDir,'img');
 
-        $path = 'http://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.PUBLIC') . 'images/loginbg/' . $picName['filename'];
+        $path = 'https://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.PUBLIC') . 'images/loginbg/' . $picName['filename'];
 
         $backJson = [
             'code' => 0,
@@ -728,7 +728,7 @@ class Json extends Controller
         $dstDir = AR_ROOT_PATH . 'arcms/assets/adminUpload/img';
         $picName = \ar\core\comp('ext.upload')->upload('file',$dstDir,'img');
 
-        $path = 'http://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.GPUBLIC') . 'adminUpload/img/' . $picName['filename'];
+        $path = 'https://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.GPUBLIC') . 'adminUpload/img/' . $picName['filename'];
 
         $backJson = [
             'code' => 0,
@@ -749,7 +749,7 @@ class Json extends Controller
         $dstDir = AR_ROOT_PATH . 'arcms/assets/adminUpload/articeimg';
         $picName = \ar\core\comp('ext.upload')->upload('file',$dstDir,'img');
 
-        $path = 'http://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.GPUBLIC') . 'adminUpload/articeimg/' . $picName['filename'];
+        $path = 'https://' . $_SERVER['HTTP_HOST'] . \ar\core\cfg('PATH.GPUBLIC') . 'adminUpload/articeimg/' . $picName['filename'];
 
         $backJson = [
             'code' => 0,
