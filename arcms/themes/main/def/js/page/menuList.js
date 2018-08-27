@@ -27,7 +27,6 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             }},
             {field: 'fmenu', title: '父级菜单',  align:'center'},
             {field: 'num', title: '排序值', align:'center', width:120},
-
             {title: '操作', width:170, templet:'#menuListBar',fixed:"right",align:"center" , templet:function(d){
                 return d.issystem == "0" ? '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>' :
                     '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>';
