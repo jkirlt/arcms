@@ -34,6 +34,7 @@ class Index extends Controller
         $userDetal = $this->getUserService()->getLoginUser();
 
         $this->assign(['topMenu' => $topNavs['top'], 'topCont' => $topNavs['cont']]);
+        $this->assign(['firstId' => $topNavs['top'][0]]);
         $this->assign(['user' => $userDetal]);
         $this->assign(['systemInfo' => $systemInfo]);
         $this->display('/index');

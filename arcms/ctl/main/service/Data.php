@@ -33,6 +33,7 @@ class Data
 
         $nav = Nav::model()->getDb()
             ->where($condition)
+            ->order('num')
             ->queryAll();
 
         return [
@@ -53,6 +54,13 @@ class Data
             array_push($nav,$menu);
             $cont++;
         }
+
+        // 根据num排序
+        $nav2 = array();
+        foreach ($nav as $n) {
+            $nav2[] = $n['num'];
+        }
+        array_multisort($nav2, SORT_ASC, $nav);
 
         return [
             'top' => $nav,
@@ -103,6 +111,13 @@ class Data
                 $nav['href'] =  'Data/dlist/mid/' . $nav['modeid'];
             }
         }
+
+        // 根据num排序
+        $nav2 = array();
+        foreach ($navs as $n) {
+            $nav2[] = $n['num'];
+        }
+        array_multisort($nav2, SORT_ASC, $navs);
 
         return [
             'menu' => $navs,

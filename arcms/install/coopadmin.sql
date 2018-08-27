@@ -121,6 +121,7 @@ CREATE TABLE `coopadmin_nav` (
   `status` int(11) DEFAULT '1' COMMENT '是否有效 1有效 0无效',
   `issystem` int(11) DEFAULT '0' COMMENT '是否系统菜单 0为否 1为是',
   `modeid` varchar(45) DEFAULT NULL COMMENT '关联模型id',
+  `num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`nav_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 
@@ -128,14 +129,14 @@ CREATE TABLE `coopadmin_nav` (
 -- Records of coopadmin_nav
 -- ----------------------------
 LOCK TABLES `coopadmin_nav` WRITE;
-INSERT INTO `coopadmin_nav` VALUES ('1', '权限设置', '&#xe613;', 'memberCenter', '0', null, '1', '0', '1', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('2', '系统设置', '&#xe620;', 'systemeSttings', '0', null, '1', '0', '1', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('3', '系统用户列表', '&#xe612;', 'users/userList', '0', null, '2', '1', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('4', '系统用户角色', '&#xe770;', 'users/userGrade', '0', null, '2', '1', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('5', '菜单列表', '&#xe62a;', 'systems/menuList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('6', '数据库表', '&#xe62d;', 'systems/tableList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('7', '模型表', '&#xe638;', 'systems/modelList', '0', null, '2', '2', '0', '1', '1', null);
-INSERT INTO `coopadmin_nav` VALUES ('8', '参数设置', '&#xe614;', 'systems/setSystem', '0', null, '2', '2', '0', '1', '1', null);
+INSERT INTO `coopadmin_nav` VALUES ('1', '权限设置', '&#xe613;', 'memberCenter', '0', null, '1', '0', '1', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('2', '系统设置', '&#xe620;', 'systemeSttings', '0', null, '1', '0', '1', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('3', '系统用户列表', '&#xe612;', 'users/userList', '0', null, '2', '1', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('4', '系统用户角色', '&#xe770;', 'users/userGrade', '0', null, '2', '1', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('5', '菜单列表', '&#xe62a;', 'systems/menuList', '0', null, '2', '2', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('6', '数据库表', '&#xe62d;', 'systems/tableList', '0', null, '2', '2', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('7', '模型表', '&#xe638;', 'systems/modelList', '0', null, '2', '2', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('8', '参数设置', '&#xe614;', 'systems/setSystem', '0', null, '2', '2', '0', '1', '1', null, null);
 UNLOCK TABLES;
 
 -- ----------------------------

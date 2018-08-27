@@ -14,7 +14,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         id : "menuListTable",
         cols : [[
             {field: 'nav_id', title: 'ID', width:60, align:"center"},
-            {field: 'title', title: '菜单标题', width:350},
+            {field: 'title', title: '菜单标题', width:250},
             {field: 'href', title: '链接', align:'center'},
             {field: 'cate', title: '分类',  align:'center',templet:function(d){
                 if(d.cate == "1"){
@@ -26,6 +26,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                 }
             }},
             {field: 'fmenu', title: '父级菜单',  align:'center'},
+            {field: 'num', title: '排序值', align:'center', width:120},
 
             {title: '操作', width:170, templet:'#menuListBar',fixed:"right",align:"center" , templet:function(d){
                 return d.issystem == "0" ? '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>' :
@@ -64,6 +65,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                     body.find(".title").val(edit.title);
                     body.find(".icon").val(edit.icon);
                     body.find(".href").val(edit.href);
+                    body.find(".num").val(edit.num);
                     body.find(".cate select").val(edit.cate);
                     body.find(".fid select").val(edit.fid);
                     form.render();

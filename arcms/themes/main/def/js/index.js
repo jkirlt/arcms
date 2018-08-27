@@ -14,7 +14,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 			url : JSON_API + "getNavs" //获取菜单json地址
 		});
 
-	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
+	//通过顶部菜单获取左侧二三级菜单
 	function getData(id){
 		$.getJSON(tab.tabConfig.url, {nav_id: id},function(res){
 			dataStr = res.data;
@@ -35,7 +35,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 		getData($(this).attr("menuid"));
 		//渲染顶部窗口
 		tab.tabMove();
-	})
+	});
 
 
 	//隐藏左侧导航
@@ -47,10 +47,8 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 		$(".layui-layout-admin").toggleClass("showMenu");
 		//渲染顶部窗口
 		tab.tabMove();
-	})
+	});
 
-	// 默认显示的菜单项目
-	getData(1);
 
 	//手机设备的简单适配
     $('.site-tree-mobile').on('click', function(){
@@ -79,7 +77,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
             layer.close(index);
             layer.msg("缓存清除成功！");
         },1000);
-    })
+    });
 
 	//刷新后还原打开的窗口
     if(cacheStr == "true") {
@@ -121,7 +119,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 		window.sessionStorage.removeItem("menu");
 		window.sessionStorage.removeItem("curmenu");
 	}
-})
+});
 
 //打开新窗口
 function addTab(_this){

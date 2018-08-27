@@ -934,6 +934,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><i class="layui-icon">&#xe60e;</i>排序值</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input num" placeholder="值越小越靠前">
+                        </div>
+                    </div>
 
                     <hr class="layui-bg-gray" />
                     <div class="layui-right">
@@ -998,6 +1004,7 @@
             icon: $(".icon").val(),
             cate: $('.cate select').val(),
             fid: $('.fid select').val(),
+            num: $('.num').val(),
             <?php
                 if($isToModel==1){
                    echo 'mid: '.$model['id'];
