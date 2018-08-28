@@ -40,7 +40,6 @@
                     cellMinWidth : 95,
                     id : "menuListTable",
                     cols : [[
-                        {field: 'id', title: 'ID', width:60, align:"center"},
                         {field: 'name', title: '导航名称', width:250},
                         {field: 'view', title: '显示方式', align:'center',templet:function(d){
                             if(d.view == "0"){
@@ -89,37 +88,48 @@
                     ]]
                 });
 
-                // 添加菜单页面
-                function addMenu(edit){
-                    var index = layui.layer.open({
-                        title : "菜单内容",
-                        type : 2,
-                        content : SERVER_PATH + "webSet/navAdd",
-                        success : function(layero, index){
-                            var body = layui.layer.getChildFrame('body', index);
-                            if(edit){
-                                body.find(".id").val(edit.id);
-                                body.find(".name").val(edit.name);
-                                body.find(".num").val(edit.num);
-                                body.find(".cate select").val(edit.cate);
-                                body.find(".fid select").val(edit.fid);
-                                form.render();
-                            }
-                            setTimeout(function(){
-                                layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
-                                    tips: 3
-                                });
-                            },500)
-                        }
+                // 添加菜单弹窗
+                function addNav(){
+                    layer.open({
+                        title : "添加新栏目",
+                        type: 2,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['800px', '600px'], //宽高
+                        content: SERVER_PATH + "webSet/navAdd"
                     });
-                    layui.layer.full(index);
-                    //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-                    $(window).on("resize",function(){
-                        layui.layer.full(index);
-                    })
                 }
+
+                // 添加菜单页面
+//                function addMenu(edit){
+//                    var index = layui.layer.open({
+//                        title : "菜单内容",
+//                        type : 2,
+//                        content : SERVER_PATH + "webSet/navAdd",
+//                        success : function(layero, index){
+//                            var body = layui.layer.getChildFrame('body', index);
+//                            if(edit){
+//                                body.find(".id").val(edit.id);
+//                                body.find(".name").val(edit.name);
+//                                body.find(".num").val(edit.num);
+//                                body.find(".cate select").val(edit.cate);
+//                                body.find(".fid select").val(edit.fid);
+//                                form.render();
+//                            }
+//                            setTimeout(function(){
+//                                layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
+//                                    tips: 3
+//                                });
+//                            },500)
+//                        }
+//                    });
+//                    layui.layer.full(index);
+//                    //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+//                    $(window).on("resize",function(){
+//                        layui.layer.full(index);
+//                    })
+//                }
                 $(".addMenu_btn").click(function(){
-                    addMenu();
+                    addNav();
                 });
 
                 //批量删除
