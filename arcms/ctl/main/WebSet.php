@@ -43,4 +43,16 @@ class WebSet extends Base
     {
         $this->display('/webSet/hrefList');
     }
+
+    // 添加导航菜单
+    public function navAdd()
+    {
+        $topNavs = $this->getDataService()->findTopMenu();
+        $secondNavs = $this->getDataService()->findSecondMenu();
+
+        $this->assign(['topMenu' => $topNavs['top']]);
+        $this->assign(['secondMenu' => $secondNavs['second']]);
+        $this->display('/webSet/navAdd');
+    }
+
 }

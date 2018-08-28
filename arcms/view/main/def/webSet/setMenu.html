@@ -36,7 +36,7 @@
                 //菜单列表
                 var tableIns = table.render({
                     elem: '#menuList',
-                    url : SERVER_PATH + "WebData/navList",
+                    url : SERVER_PATH + "webData/navList",
                     cellMinWidth : 95,
                     id : "menuListTable",
                     cols : [[
@@ -94,14 +94,12 @@
                     var index = layui.layer.open({
                         title : "菜单内容",
                         type : 2,
-                        content : SERVER_PATH + "systemSetting/menuAdd",
+                        content : SERVER_PATH + "webSet/navAdd",
                         success : function(layero, index){
                             var body = layui.layer.getChildFrame('body', index);
                             if(edit){
-                                body.find(".nav_id").val(edit.nav_id);
-                                body.find(".title").val(edit.title);
-                                body.find(".icon").val(edit.icon);
-                                body.find(".href").val(edit.href);
+                                body.find(".id").val(edit.id);
+                                body.find(".name").val(edit.name);
                                 body.find(".num").val(edit.num);
                                 body.find(".cate select").val(edit.cate);
                                 body.find(".fid select").val(edit.fid);
@@ -113,7 +111,7 @@
                                 });
                             },500)
                         }
-                    })
+                    });
                     layui.layer.full(index);
                     //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
                     $(window).on("resize",function(){
@@ -122,7 +120,7 @@
                 }
                 $(".addMenu_btn").click(function(){
                     addMenu();
-                })
+                });
 
                 //批量删除
                 $(".delAll_btn").click(function(){
@@ -144,7 +142,7 @@
                     }else{
                         layer.msg("请选择需要删除的菜单");
                     }
-                })
+                });
 
                 //列表操作
                 table.on('tool(menuList)', function(obj){
