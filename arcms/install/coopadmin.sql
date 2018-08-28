@@ -30,7 +30,7 @@ CREATE TABLE `coopadmin_model_detail` (
   `typeexplain` varchar(255) DEFAULT NULL COMMENT '字段类型说明',
   `issort` int(11) DEFAULT '0' COMMENT '是否支持排序 0否 1是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=982 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_model_detail
@@ -55,7 +55,7 @@ CREATE TABLE `coopadmin_model_fk` (
   `fexplain` varchar(255) DEFAULT NULL COMMENT '关联表字段说明',
   `updatetime` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_model_fk
@@ -76,7 +76,7 @@ CREATE TABLE `coopadmin_model_menufunc` (
   `status` int(11) DEFAULT '1' COMMENT '状态 0关闭 1为开启',
   `updatetime` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_model_menufunc
@@ -98,7 +98,7 @@ CREATE TABLE `coopadmin_modellist` (
   `isedit` int(11) DEFAULT '1' COMMENT '允许编辑 0为不允许 1为允许',
   `isdel` int(11) DEFAULT '1' COMMENT '允许删除 0为不允许 1为允许',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_modellist
@@ -123,20 +123,35 @@ CREATE TABLE `coopadmin_nav` (
   `modeid` varchar(45) DEFAULT NULL COMMENT '关联模型id',
   `num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`nav_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_nav
 -- ----------------------------
 LOCK TABLES `coopadmin_nav` WRITE;
-INSERT INTO `coopadmin_nav` VALUES ('1', '权限设置', '&#xe613;', 'memberCenter', '0', null, '1', '0', '1', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('2', '系统设置', '&#xe620;', 'systemeSttings', '0', null, '1', '0', '1', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('3', '系统用户列表', '&#xe612;', 'users/userList', '0', null, '2', '1', '0', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('4', '系统用户角色', '&#xe770;', 'users/userGrade', '0', null, '2', '1', '0', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('5', '菜单列表', '&#xe62a;', 'systems/menuList', '0', null, '2', '2', '0', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('6', '数据库表', '&#xe62d;', 'systems/tableList', '0', null, '2', '2', '0', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('7', '模型表', '&#xe638;', 'systems/modelList', '0', null, '2', '2', '0', '1', '1', null, null);
-INSERT INTO `coopadmin_nav` VALUES ('8', '参数设置', '&#xe614;', 'systems/setSystem', '0', null, '2', '2', '0', '1', '1', null, null);
+INSERT INTO `coopadmin_nav` VALUES ('1', '网站设置', '&#xe7ae;', 'webSet', '0', null, '1', '0', '1', '1', '1', null, '1');
+INSERT INTO `coopadmin_nav` VALUES ('2', '内容设置', '&#xe857;', 'dataSet', '0', null, '1', '0', '1', '1', '1', null, '2');
+INSERT INTO `coopadmin_nav` VALUES ('3', '系统设置', '&#xe620;', 'systemeSttings', '0', null, '1', '0', '1', '1', '1', null, '3');
+INSERT INTO `coopadmin_nav` VALUES ('4', '权限设置', '&#xe613;', 'memberCenter', '0', null, '1', '0', '1', '1', '1', null, '4');
+INSERT INTO `coopadmin_nav` VALUES ('5', '模板选择', '&#xe630;', 'webSet/themes', '0', null, '2', '1', '0', '1', '1', null, '1');
+INSERT INTO `coopadmin_nav` VALUES ('6', '导航设置', '&#xe65f;', 'webSet/setMenu', '0', null, '2', '1', '0', '1', '1', null, '2');
+INSERT INTO `coopadmin_nav` VALUES ('7', '网站信息', '&#xe66c;', 'webSet/aboutWeb', '0', null, '2', '1', '0', '1', '1', null, '3');
+INSERT INTO `coopadmin_nav` VALUES ('8', 'Banner图', '&#xe634;', 'webSet/banner', '0', null, '2', '1', '0', '1', '1', null, '4');
+INSERT INTO `coopadmin_nav` VALUES ('9', '友情链接', '&#xe674;', 'webSet/href', '0', null, '2', '1', '0', '1', '1', null, '5');
+INSERT INTO `coopadmin_nav` VALUES ('10', '企业信息', '&#xe663;', 'dataSet/about', '0', null, '2', '2', '0', '1', '1', null, '1');
+INSERT INTO `coopadmin_nav` VALUES ('11', '文章管理', '&#xe63c;', 'dataSet/article', '0', null, '2', '2', '0', '1', '1', null, '2');
+INSERT INTO `coopadmin_nav` VALUES ('12', '产品管理', '&#xe653;', 'dataSet/product', '0', null, '2', '2', '0', '1', '1', null, '3');
+INSERT INTO `coopadmin_nav` VALUES ('13', '新闻管理', '&#xe638;', 'dataSet/news', '0', null, '2', '2', '0', '1', '1', null, '4');
+INSERT INTO `coopadmin_nav` VALUES ('14', '图片管理', '&#xe64a;', 'dataSet/image', '0', null, '2', '2', '0', '1', '1', null, '5');
+INSERT INTO `coopadmin_nav` VALUES ('15', '下载管理', '&#xe601;', 'dataSet/downloadFile', '0', null, '2', '2', '0', '1', '1', null, '6');
+INSERT INTO `coopadmin_nav` VALUES ('16', '招聘管理', '&#xe60a;', 'dataSet/jobs', '0', null, '2', '2', '0', '1', '1', null, '7');
+INSERT INTO `coopadmin_nav` VALUES ('17', '消息管理', '&#xe702;', 'dataSet/message', '0', null, '2', '2', '0', '1', '1', null, '8');
+INSERT INTO `coopadmin_nav` VALUES ('18', '系统用户列表', '&#xe612;', 'users/userList', '0', null, '2', '4', '0', '1', '1', null, '2');
+INSERT INTO `coopadmin_nav` VALUES ('19', '系统用户角色', '&#xe770;', 'users/userGrade', '0', null, '2', '4', '0', '1', '1', null, '1');
+INSERT INTO `coopadmin_nav` VALUES ('20', '数据库表', '&#xe62d;', 'systems/tableList', '0', null, '2', '3', '0', '1', '1', null, '4');
+INSERT INTO `coopadmin_nav` VALUES ('21', '模型表', '&#xe638;', 'systems/modelList', '0', null, '2', '3', '0', '1', '1', null, '3');
+INSERT INTO `coopadmin_nav` VALUES ('22', '菜单列表', '&#xe62a;', 'systems/menuList', '0', null, '2', '3', '0', '1', '1', null, '2');
+INSERT INTO `coopadmin_nav` VALUES ('23', '参数设置', '&#xe614;', 'systems/setSystem', '0', null, '2', '3', '0', '1', '1', null, '1');
 UNLOCK TABLES;
 
 -- ----------------------------
@@ -148,7 +163,7 @@ CREATE TABLE `coopadmin_role` (
   `name` varchar(255) DEFAULT NULL COMMENT '角色名称',
   `status` int(10) DEFAULT '1' COMMENT '状态 1为可以删除 0为不能删除',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_role
@@ -168,18 +183,31 @@ CREATE TABLE `coopadmin_role_nav` (
   `role_id` int(11) DEFAULT NULL COMMENT '对应role表id字段',
   `nav_id` int(11) DEFAULT NULL COMMENT '对应nav表nav_id字段',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_role_nav
 -- ----------------------------
 LOCK TABLES `coopadmin_role_nav` WRITE;
-INSERT INTO `coopadmin_role_nav` VALUES ('1', '1', '3');
-INSERT INTO `coopadmin_role_nav` VALUES ('2', '1', '4');
-INSERT INTO `coopadmin_role_nav` VALUES ('3', '1', '5');
-INSERT INTO `coopadmin_role_nav` VALUES ('4', '1', '6');
-INSERT INTO `coopadmin_role_nav` VALUES ('5', '1', '7');
-INSERT INTO `coopadmin_role_nav` VALUES ('6', '1', '8');
+INSERT INTO `coopadmin_role_nav` VALUES ('1', '1', '5');
+INSERT INTO `coopadmin_role_nav` VALUES ('2', '1', '6');
+INSERT INTO `coopadmin_role_nav` VALUES ('3', '1', '7');
+INSERT INTO `coopadmin_role_nav` VALUES ('4', '1', '8');
+INSERT INTO `coopadmin_role_nav` VALUES ('5', '1', '9');
+INSERT INTO `coopadmin_role_nav` VALUES ('6', '1', '10');
+INSERT INTO `coopadmin_role_nav` VALUES ('7', '1', '11');
+INSERT INTO `coopadmin_role_nav` VALUES ('8', '1', '12');
+INSERT INTO `coopadmin_role_nav` VALUES ('9', '1', '13');
+INSERT INTO `coopadmin_role_nav` VALUES ('10', '1', '14');
+INSERT INTO `coopadmin_role_nav` VALUES ('11', '1', '15');
+INSERT INTO `coopadmin_role_nav` VALUES ('12', '1', '16');
+INSERT INTO `coopadmin_role_nav` VALUES ('13', '1', '17');
+INSERT INTO `coopadmin_role_nav` VALUES ('14', '1', '18');
+INSERT INTO `coopadmin_role_nav` VALUES ('15', '1', '19');
+INSERT INTO `coopadmin_role_nav` VALUES ('16', '1', '20');
+INSERT INTO `coopadmin_role_nav` VALUES ('17', '1', '21');
+INSERT INTO `coopadmin_role_nav` VALUES ('18', '1', '22');
+INSERT INTO `coopadmin_role_nav` VALUES ('19', '1', '23');
 UNLOCK TABLES;
 
 -- ----------------------------
@@ -231,7 +259,7 @@ CREATE TABLE `coopadmin_user` (
   `logintime` int(11) DEFAULT NULL COMMENT '登录时间',
   `ip` varchar(255) DEFAULT NULL COMMENT '上次登录ip',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_user
@@ -251,7 +279,7 @@ CREATE TABLE `coopadmin_user_role` (
   `uid` int(11) DEFAULT NULL COMMENT '对应user表id字段',
   `role_id` int(11) DEFAULT NULL COMMENT '对应role表id字段',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of coopadmin_user_role
