@@ -57,6 +57,15 @@
 //        layui.layer.full(index);
 //      })
     }
+
+    // 新标签页打开页面
+    function newTab(url,tit){
+        if(top.layui.index){
+            top.layui.index.openTabsPage(url,tit)
+        }else{
+            window.open(url)
+        }
+    }
   </script>
 
   <extend name="jsfoot" />

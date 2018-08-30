@@ -311,8 +311,9 @@
               }, 'json')
             });
           } else { // 自定义功能
-            var title = $('.'+layEvent+':first').text();
-            openPage(SERVER_PATH + "costomFunc/" +layEvent+"/res/"+data['{{uniKey}}'], title)
+              var title = $('.'+layEvent+':first').text();
+              // openPage(SERVER_PATH + "costomFunc/" +layEvent+"/res/"+data['{{uniKey}}'], title);
+              newTab(SERVER_PATH + "costomFunc/" +layEvent+"/res/"+data['{{uniKey}}'], title);
           }
         });
       })
