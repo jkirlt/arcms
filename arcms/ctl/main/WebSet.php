@@ -41,6 +41,7 @@ class WebSet extends Base
     // 友情链接
     public function hrefList()
     {
+        
         $this->display('/webSet/hrefList');
     }
 
