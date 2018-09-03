@@ -6,8 +6,69 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label">栏目名称</label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" class="layui-input name" placeholder="请输入栏目名称">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">显示方式</label>
+                <div class="layui-input-inline view">
+                    <select name="view">
+                        <option value=""></option>
+                        <option value="0">都显示</option>
+                        <option value="1">顶部显示</option>
+                        <option value="2">底部显示</option>
+                        <option value="3">都不显示</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属模块</label>
+                <div class="layui-input-inline type">
+                    <select name="type">
+                        <option value=""></option>
+                        <option value="1">企业信息</option>
+                        <option value="2">文章列表</option>
+                        <option value="3">产品列表</option>
+                        <option value="4">新闻列表</option>
+                        <option value="5">图片列表</option>
+                        <option value="6">下载列表</option>
+                        <option value="7">招聘列表</option>
+                        <option value="8">消息列表</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类</label>
+                <div class="layui-input-inline cate">
+                    <select name="cate">
+                        <option value=""></option>
+                        <option value="1">一级菜单</option>
+                        <option value="2">二级菜单</option>
+                        <option value="3">三级菜单</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序值</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input order" placeholder="请输入排序值 值越小越靠前">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上级菜单</label>
+                <div class="layui-input-inline fid">
+                    <select name="fid">
+                        <option  value="0">顶级菜单</option>
+                        <option>--以下为一级菜单--</option>
+                        <for exp="$key in $topMenu" as="top">
+                            <option  value="{{top.id}}">{{top.name}}</option>
+                        </for>
+                        <option>--以下为二级菜单--</option>
+                        <for exp="$key in $secondMenu" as="sec">
+                            <option  value="{{sec.id}}">{{sec.name}}</option>
+                        </for>
+                    </select>
                 </div>
             </div>
         </form>

@@ -89,4 +89,37 @@ class Web
         ];
     }
 
+    // 查找一级菜单
+    public function findTopMenu()
+    {
+
+        $condition = [
+            'cate' => 1
+        ];
+
+        $nav = WebNav::model()->getDb()
+            ->where($condition)
+            ->queryAll();
+
+        return [
+            'top' => $nav,
+        ];
+    }
+
+    // 查找二级菜单
+    public function findSecondMenu()
+    {
+        $condition = [
+            'cate' => 2
+        ];
+
+        $nav = WebNav::model()->getDb()
+            ->where($condition)
+            ->queryAll();
+
+        return [
+            'second' => $nav,
+        ];
+    }
+
 }

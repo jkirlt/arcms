@@ -48,8 +48,8 @@ class WebSet extends Base
     // 添加导航菜单
     public function navAdd()
     {
-        $topNavs = $this->getDataService()->findTopMenu();
-        $secondNavs = $this->getDataService()->findSecondMenu();
+        $topNavs = $this->getWebService()->findTopMenu();
+        $secondNavs = $this->getWebService()->findSecondMenu();
 
         $this->assign(['topMenu' => $topNavs['top']]);
         $this->assign(['secondMenu' => $secondNavs['second']]);
