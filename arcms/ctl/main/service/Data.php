@@ -10,8 +10,7 @@ namespace arcms\ctl\main\service;
 use arcms\lib\model\ModelList;
 use arcms\lib\model\Nav as Nav;
 use arcms\lib\model\RoleNav as RoleNavModel;
-use arcms\lib\model\ModelFK;
-use arcms\lib\model\News as News;
+use arcms\lib\model\ModelFK;;
 /**
  * 数据服务组件
  */
@@ -28,7 +27,8 @@ class Data
     {
 
         $condition = [
-                'cate' => 1
+                'cate' => 1,
+                'status' => 1
             ];
 
         $nav = Nav::model()->getDb()
@@ -49,7 +49,7 @@ class Data
 
         foreach($topid as $t){
             $menu = Nav::model()->getDb()
-                ->where(['nav_id'=>$t,'cate'=>1])
+                ->where(['nav_id' => $t, 'cate' => 1, 'status' => 1])
                 ->queryRow();
             array_push($nav,$menu);
             $cont++;
@@ -74,7 +74,8 @@ class Data
     public function findSecondMenu()
     {
         $condition = [
-            'cate' => 2
+            'cate' => 2,
+            'status' => 1
         ];
 
         $nav = Nav::model()->getDb()
@@ -90,7 +91,8 @@ class Data
     public function findChildMenu($id,$navsid)
     {
         $condition = [
-            'fid' => $id
+            'fid' => $id,
+            'status' => 1
         ];
 
         $navs = [];
@@ -130,7 +132,8 @@ class Data
     {
         $condition = [
             'cate' => 1,
-            'nav_id' => $id
+            'nav_id' => $id,
+            'status' => 1
         ];
         $menu = Nav::model()->getDb()
             ->where($condition)
@@ -142,7 +145,8 @@ class Data
     public function getNavOne($id)
     {
         $condition = [
-            'nav_id' => $id
+            'nav_id' => $id,
+            'status' => 1
         ];
         $menu = Nav::model()->getDb()
             ->where($condition)
@@ -164,6 +168,7 @@ class Data
         $cate3 = [];
 
         $navs = Nav::model()->getDb()
+            ->where(['status' => 1])
             ->queryAll();
         foreach ($navs as $key => $value) {
             if($value['cate'] == 1){
