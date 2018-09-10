@@ -25,7 +25,19 @@ class WebData extends Controller
         ];
         $this->showJson($backJson, array('data' => true));
         return;
+    }
 
+    // 添加菜单功能
+    public function addMenu()
+    {
+        $data = \ar\core\post();
+
+        $addSuccess = $this->getWebService()->addMenu($data);
+        if ($addSuccess) {
+            $this->showJsonSuccess('添加菜单成功');
+        } else {
+            $this->showJsonError('添加菜单失败', '6002');
+        }
     }
 
 }

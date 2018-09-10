@@ -80,5 +80,59 @@
 	<extend name="jsfoot">
 		<script type="text/javascript" src="{{C.PATH.GPUBLIC}}layui/layui.js"></script>
 		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/icons.js"></script>
+        <script>
+            layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
+                var form = layui.form
+                layer = parent.layer === undefined ? layui.layer : top.layer,
+                        laypage = layui.laypage,
+                        upload = layui.upload,
+                        layedit = layui.layedit,
+                        laydate = layui.laydate,
+                        $ = layui.jquery;
+
+                //格式化时间
+                function filterTime(val) {
+                    if (val < 10) {
+                        return "0" + val;
+                    } else {
+                        return val;
+                    }
+                }
+                // 提交
+                form.on("submit(addMenu)", function(data) {
+                    //弹出loading
+                    var index = top.layer.msg('数据提交中，请稍候', {
+                        icon: 16,
+                        time: false,
+                        shade: 0.8
+                    });
+                    // 实际使用时的提交信息
+                    $.post(SERVER_PATH + "webData/addMenu", {
+                        name: $(".name").val(),
+                        view: $('.view select').val(),
+                        type: $('.type select').val(),
+                        cate: $('.cate select').val(),
+                        order: $('.order').val(),
+                        fid: $('.fid select').val()
+                    }, function(res) {
+                        top.layer.close(index);
+                        if (res.success === '1') {
+                        top.layer.msg("栏目添加成功！");
+                        setTimeout(function() {
+                        top.layer.close(index);
+                        top.layer.msg("栏目添加成功！");
+                        layer.closeAll("iframe");
+                        //刷新父页面
+                        parent.location.reload();
+                    }, 500);
+                    } else {
+                        top.layer.msg(res.error_msg);
+                    }
+                        return;
+                    }, 'json');
+                  return false;
+                });
+            })
+        </script>
 	</extend>
 </import>
