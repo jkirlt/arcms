@@ -97,12 +97,17 @@ class Web
             'cate' => 1
         ];
 
+        $totalCount = WebNav::model()->getDb()
+            ->where($condition)
+            ->count();
+
         $nav = WebNav::model()->getDb()
             ->where($condition)
             ->queryAll();
 
         return [
             'top' => $nav,
+            'count' => $totalCount
         ];
     }
 
@@ -120,6 +125,23 @@ class Web
         return [
             'second' => $nav,
         ];
+    }
+
+    // 添加新栏目
+    public function addMenu($data){
+        // 写入
+        $insert = WebNav::model()->getDb()->insert($data, 1);
+        $fid = $data['fid'];
+        $fmenu = WebNav::model()->getDb()
+            ->where(['id' => $fid])
+            ->queryRow();
+        if($fmenu['children_code'] == 0){
+            WebNav::model()->getDb()
+                ->where(['id' => $fid])
+                ->update(['children_code' => 1]);
+        }
+
+        return $insert;
     }
 
 }

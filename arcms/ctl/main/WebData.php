@@ -32,12 +32,28 @@ class WebData extends Controller
     {
         $data = \ar\core\post();
 
-        $addSuccess = $this->getWebService()->addMenu($data);
-        if ($addSuccess) {
-            $this->showJsonSuccess('添加菜单成功');
-        } else {
-            $this->showJsonError('添加菜单失败', '6002');
+        if($data['cate']==1){
+            $count = $this->getWebService()->findTopMenu();
+            if($count['count'] < 6){
+                $addSuccess = $this->getWebService()->addMenu($data);
+                if ($addSuccess) {
+                    $this->showJsonSuccess('添加菜单成功');
+                } else {
+                    $this->showJsonError('添加菜单失败', '6002');
+                }
+            } else {
+                $this->showJsonError('一级导航栏目不能超过6个,添加失败', '6001');
+            }
+        } else if($data['cate']==2){
+            $addSuccess = $this->getWebService()->addMenu($data);
+            if ($addSuccess) {
+                $this->showJsonSuccess('添加菜单成功');
+            } else {
+                $this->showJsonError('添加菜单失败', '6002');
+            }
         }
+
+
     }
 
 }
