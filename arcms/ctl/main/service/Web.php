@@ -127,14 +127,23 @@ class Web
         ];
     }
 
+    // 根据id查找单个菜单
+    public function getNavById($id)
+    {
+        $data = WebNav::model()->getDb()
+            ->where(['id' => $id])
+            ->queryRow();
+        return $data;
+    }
+
     // 添加新栏目
-    public function addMenu($data){
+    public function addMenu($data, $title)
+    {
+        $data['title'] = $title;
         // 写入
         $insert = WebNav::model()->getDb()->insert($data, 1);
         $fid = $data['fid'];
-        $fmenu = WebNav::model()->getDb()
-            ->where(['id' => $fid])
-            ->queryRow();
+        $fmenu = $this->getNavById($fid);
         if($fmenu['children_code'] == 0){
             WebNav::model()->getDb()
                 ->where(['id' => $fid])

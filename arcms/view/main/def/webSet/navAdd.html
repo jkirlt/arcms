@@ -82,7 +82,7 @@
 		<script type="text/javascript" src="{{C.PATH.PUBLIC}}js/page/icons.js"></script>
         <script>
             layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
-                var form = layui.form
+                var form = layui.form;
                 layer = parent.layer === undefined ? layui.layer : top.layer,
                         laypage = layui.laypage,
                         upload = layui.upload,
@@ -119,16 +119,16 @@
                         if (res.success === '1') {
                         top.layer.msg("栏目添加成功！");
                         setTimeout(function() {
-                        top.layer.close(index);
-                        top.layer.msg("栏目添加成功！");
-                        layer.closeAll("iframe");
-                        //刷新父页面
-                        parent.location.reload();
-                    }, 500);
-                    } else {
-                        top.layer.msg(res.error_msg);
-                    }
-                        return;
+                            top.layer.close(index);
+                            top.layer.msg("栏目添加成功！");
+                            layer.closeAll("iframe");
+                            //刷新父页面
+                            parent.location.reload();
+                            }, 500);
+                        } else {
+                            top.layer.msg(res.error_msg);
+                        }
+                            return;
                     }, 'json');
                   return false;
                 });
