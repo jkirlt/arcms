@@ -149,6 +149,11 @@ class Web
                 ->where(['id' => $fid])
                 ->update(['children_code' => 1]);
         }
+        if($fmenu['target'] == 1){
+            WebNav::model()->getDb()
+                ->where(['id' => $fid])
+                ->update(['target' => 0]);
+        }
 
         return $insert;
     }
